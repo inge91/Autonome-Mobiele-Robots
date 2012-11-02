@@ -46,3 +46,8 @@ def path(brick, tuples):
     for fun, power, distance in tuples:
         fun(brick, power, distance)
         time.sleep(1)
+
+def main()
+
+if __name__ == "__main__":
+    def main()

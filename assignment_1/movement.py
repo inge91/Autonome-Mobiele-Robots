@@ -1,4 +1,5 @@
 import nxt
+import numpy
 from pylab import *
 from threading import Thread
 import time
@@ -47,7 +48,8 @@ def path(brick, tuples):
         fun(brick, power, distance)
         time.sleep(1)
 
-def main()
+def main():
+    print "hi"
 
 if __name__ == "__main__":
-    def main()
+    main()

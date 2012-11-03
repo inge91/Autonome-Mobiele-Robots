@@ -51,7 +51,7 @@ def path(brick, tuples):
 def main():
     # find a brick
     brick = nxt.find_one_brick()
-    odometer = od.Odometry(brick,100, 4)
+    odometer = od.Odometry(brick, 1000, 4)
     # start thread
     odometer.start()
     time.sleep(1)
@@ -65,7 +65,7 @@ def main():
     #lijst = [(move, 100, 200),(turn_left, 100, 180), (move, 100, 200),
     #        (turn_left, 100, 180), (move, 100, 200),(turn_left, 100, 180),
     #        (move, 100, 200)] 
-    lijst = [(move, 100, 220)] #, (turn_right, 100, 180), (move, 100, 1000)]
+    lijst = [(move, 100, 1000) , (turn_right, 100, 180), (move, 100, 1000)]
     path(brick, lijst)
 
     odometer.join()

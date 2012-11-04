@@ -95,33 +95,24 @@ def path(pth):
             displacement = matrix([x_comp, y_comp, rot_radian]).T
             position += Rinv * displacement
 
-        mover.go()
-        time.sleep(1)
+        #mover.go()
+        #time.sleep(1)
 
     return position
 
 def main():
     # find a brick
-    brick = nxt.find_one_brick()
-    odometer = od.Odometry(brick, 1000, 4)
+    brick = None
+    #odometer = od.Odometry(brick, 1000, 4)
     # start thread
-    odometer.start()
-    time.sleep(1)
+    #odometer.start()
+    #time.sleep(1)
     
-    turn_right = lambda brick, power, distance: rotate(brick, LEFT_WHEEL, power,
-            distance)
-    turn_left = lambda brick, power, distance: rotate(brick, RIGHT_WHEEL, power,
-            distance)
-    #lijst = [(move, 100, 200),(turn_left, 100, 120), (move, 100, 200),
-    #        (turn_right, 100, 120)] 
-    #lijst = [(move, 100, 200),(turn_left, 100, 180), (move, 100, 200),
-    #        (turn_left, 100, 180), (move, 100, 200),(turn_left, 100, 180),
-    #        (move, 100, 200)] 
     lijst = [Forward(brick, 100, 1000), Rotate(brick, LEFT_WHEEL, 100, 180),
             Forward(brick, 100, 1000)]
     position = path(lijst)
 
-    odometer.join()
+    #odometer.join()
 
     print "Final position:", position
 

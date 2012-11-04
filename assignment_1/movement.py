@@ -59,20 +59,18 @@ class Rotate():
         turner.join()
 
 
-def rotate(brick, port, power, distance):
-
-def path(brick, pth):
+def path(pth):
     """ Follows a path, given by a list of objects.
     Returns the offset [x, y, theta] in world coordinates relative to when the
     path was initiated."""
 
     def rotation_matrix(theta):
         return matrix(
-                [cos(theta)  , sin(theta  , 0)] ,
-                [-sin(theta) , cos(theta) , 0]  ,
-                [0           , 0          , 1])
+                [[cos(theta)  , sin(theta) , 0] ,
+                 [-sin(theta) , cos(theta) , 0]  ,
+                 [0           , 0          , 1]])
 
-    position = matrix([0, 0, 0]).T
+    position = matrix([0.0, 0.0, 0.0]).T
 
     for mover in pth:
         R = rotation_matrix(position[2, 0]) # from global to reference
@@ -86,7 +84,7 @@ def path(brick, pth):
             # update the position in the global frame
             position += Rinv * displacement
 
-        else if isinstance(mover, Rotate):
+        elif isinstance(mover, Rotate):
             rot_radian = mover.degrees * (pi / 180.0)
             x_comp = (0.5 * WHEEL_DISTACE) - (0.5 * WHEEL_DISTACE *
                     sin(rot_radian))
@@ -94,7 +92,7 @@ def path(brick, pth):
                     cos(rot_radian))
 
             # update the position in the global frame
-            displacement = matrix([x_comp, y_comp, rot_radian])
+            displacement = matrix([x_comp, y_comp, rot_radian]).T
             position += Rinv * displacement
 
         mover.go()

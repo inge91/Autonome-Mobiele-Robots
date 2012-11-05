@@ -42,17 +42,15 @@ class Odometry(Thread):
         self.time_step = time_step
 
         #j1, the constraint matrix
-        self.j1 =  np.matrix([[math.sin(alpha1 + beta1), -math.cos(alpha1 + beta1),
-            (-self.length)*math.cos(beta1)],
-               [math.sin(alpha2 + beta2), -math.cos(alpha2 + beta2),
-                   (-self.length) * math.cos(beta2)],
-               [math.cos(alpha1 + beta1), math.sin(alpha1 + beta1), self.length*math.sin(beta1)]])
+        self.j1 =  np.matrix([[0.5, 0.5, 0],[0, 0, 1],[1/(2.0*self.length),
+            -1/(2.0*self.length), 0 ]]) 
+
         print "j1 is",
         print self.j1
         # The beginning position 
-        self.x = 0 
-        self.y = 0 
-        self.theta = 0
+        self.x = 0.0 
+        self.y = 0.0 
+        self.theta = 0.0
         # The beginning I
         self.I = np.matrix([[self.x], [self.y], [self.theta]])
 
@@ -62,6 +60,8 @@ class Odometry(Thread):
         # Reset tacho count
         left_wheel.reset_position(False)
         right_wheel.reset_position(False)
+        self.total_count_left = 0
+        self.total_count_right = 0
         i = 0
         #debug sleeper
         #time.sleep(2)
@@ -84,39 +84,57 @@ class Odometry(Thread):
             print "right_tacho: ",
             print right_tacho
 
+            
+            # add to total count
+            self.total_count_left += left_tacho
+            self.total_count_right += right_tacho
+
+            print "total tacho left",
+            print self.total_count_left
+            print "total tacho right",
+            print self.total_count_right
+
             # Calculate the derivative of phi1 & phi2 (mm/ms)
             #         mm                 degrees            
             phi1 = ((self.r1 * 2) * math.pi * (left_tacho/360.0)) /self.time_step
             phi2 = ((self.r2 * 2) * math.pi * (right_tacho/360.0)) /self.time_step
-            print "phi 1:",
-            print phi1
-            print "phi 2:",
-            print phi2
 
+            print "phi1: ",
+            print phi1
+
+            print "phi2: ",
+            print phi1
 
             # Construct phi matrix:
             phi = np.matrix([[phi1], [phi2], [0]])
-            print "phi vector: ",
+            print "phi: ",
             print phi
 
 
             
             # Rotation matrix constructed using current theta
             R = self.rotate(self.theta)
-            print "Rotation matrix: ",
-            print R
+
+            print "j1",
+            print self.j1
 
             # Calculate derivative I
-            der_I = np.linalg.inv(R) * np.linalg.inv(self.j1) * phi
+            der_I = (np.linalg.inv(R) * self.j1) * phi
+            print "der I: ",
+            print der_I
+            print "theta I",
+            print der_I[2,0]
+
+
 
             # Calculate new I
             self.I += (der_I * self.time_step)
-            print "New I"
-            print self.I
             # Still need to increment the theta used to create rotation 
             # matrix
-            self.theta =self.I[2,0]
-
+            self.theta = self.I[2,0]
+            print "I: ",
+            print self.I
+            
             i += 1
             
 

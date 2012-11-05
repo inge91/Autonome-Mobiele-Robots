@@ -65,7 +65,7 @@ def main():
     #lijst = [(move, 100, 200),(turn_left, 100, 180), (move, 100, 200),
     #        (turn_left, 100, 180), (move, 100, 200),(turn_left, 100, 180),
     #        (move, 100, 200)] 
-    lijst = [(move, 100, 1000) , (turn_right, 100, 180), (move, 100, 1000)]
+    lijst = [(move, 100, 360)]
     path(brick, lijst)
 
     odometer.join()

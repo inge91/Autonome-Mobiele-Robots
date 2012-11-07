@@ -63,41 +63,8 @@ class Rotate():
 
 
 def path(pth):
-    """ Follows a path, given by a list of objects.
-    Returns the offset [x, y, theta] in world coordinates relative to when the
-    path was initiated."""
-
-    def rotation_matrix(theta):
-        return matrix(
-                [[cos(theta)  , sin(theta) , 0] ,
-                 [-sin(theta) , cos(theta) , 0]  ,
-                 [0           , 0          , 1]])
-
-    position = matrix([0.0, 0.0, 0.0]).T
-
+    """ Follows a path, given by a list of objects. """
     for mover in pth:
-        R = rotation_matrix(position[2, 0]) # from global to reference
-        Rinv = np.linalg.inv(R)             # from reference to global
-
-        # first calculate where we should end up after this step
-        if isinstance(mover, Forward):
-            # displacement in the local coordinate frame
-            displacement = matrix([mover.distance * WHEEL_RADIUS, 0, 0]).T
-
-            # update the position in the global frame
-            position += Rinv * displacement
-
-        elif isinstance(mover, Rotate):
-            rot_radian = mover.degrees * (pi / 180.0)
-            x_comp = (0.5 * WHEEL_DISTACE) - (0.5 * WHEEL_DISTACE *
-                    sin(rot_radian))
-            y_comp = (0.5 * WHEEL_DISTACE) - (0.5 * WHEEL_DISTACE *
-                    cos(rot_radian))
-
-            # update the position in the global frame
-            displacement = matrix([x_comp, y_comp, rot_radian]).T
-            position += Rinv * displacement
-
         mover.go()
         time.sleep(1)
 

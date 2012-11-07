@@ -31,8 +31,8 @@ class Forward():
         left_wheel  = nxt.Motor(self.brick, nxt.PORT_C)
         right_wheel = nxt.Motor(self.brick, nxt.PORT_B)
 
-        leftMover  = WheelMover(left_wheel, self.power, self.distance, True)
-        rightMover = WheelMover(right_wheel, self.power, self.distance, True)
+        leftMover  = WheelMover(left_wheel, self.power, self.distance, False)
+        rightMover = WheelMover(right_wheel, self.power, self.distance, False)
 
         leftMover.start()
         rightMover.start()
@@ -62,7 +62,7 @@ class Rotate():
         turner2.join()
 
 
-def path(pth, brick):
+def path(pth):
     """ Follows a path, given by a list of objects.
     Returns the offset [x, y, theta] in world coordinates relative to when the
     path was initiated."""
@@ -114,30 +114,27 @@ def path(pth, brick):
         time.sleep(2)
 
         
-        # Store the rotations
+        # store the rotations
         left_rotations = left_wheel.get_tacho().rotation_count
         right_rotations = right_wheel.get_tacho().rotation_count
         print "left rotations in movement.py : ",
         print left_rotations
 
-
-        # Check what kind of movement is made
         if(isinstance(mover, Forward)):
             # send rotation count to function that calculates position
             print "distance"
             print mover.distance
             tester.add_rotations(left_rotations, right_rotations, mover.distance,
                     mover.distance)
-
         elif(isinstance(mover, Rotate)):
             # if rotates around left give the rotation degree only to
             # right_rotations
-            if(mover.power <= 0 ):
+            if(mover.wheel_port == LEFT_WHEEL):
                 tester.add_rotations(left_rotations, right_rotations,
-                        mover.degrees * 2, - mover.degrees * 2)
+                        mover.distance * 2, 0)
             else:
                 tester.add_rotations(left_rotations, right_rotations,
-                        - mover.degrees * 2, mover.degrees * 2)
+                        0, mover.distance * 2)
     ## Print the difference in x and y 
     print tester.get_difference()
 
@@ -146,7 +143,9 @@ def path(pth, brick):
 def main():
     # find a brick
     brick = nxt.find_one_brick()
+    odometer = od.Odometry(brick, 1000, 4)
     # start thread
+    odometer.start()
     time.sleep(1)
     
     turn_right = lambda brick, power, distance: rotate(brick, LEFT_WHEEL, power,
@@ -158,11 +157,11 @@ def main():
     #lijst = [(move, 100, 200),(turn_left, 100, 180), (move, 100, 200),
     #        (turn_left, 100, 180), (move, 100, 200),(turn_left, 100, 180),
     #        (move, 100, 200)] 
-    lijst = [Forward(brick, 50, 360), Rotate(brick, 50, 180)]
-    position = path(lijst, brick)
+    lijst = [Forward(brick, 100, 1000), Rotate(brick, 100, 180),
+            Forward(brick, 100, 1000)]
+    position = path(lijst)
 
-
-    print "Final position:", position
+    odometer.join()
 
 if __name__ == "__main__":
     main()

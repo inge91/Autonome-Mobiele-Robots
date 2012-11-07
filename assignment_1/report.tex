@@ -1,0 +1,108 @@
+\documentclass[a4paper, 20pt]{report}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{placeins}
+
+\author{Maarten de Jonge \\
+Inge Becht}
+\date{\today}
+\title{Autonome mobiele robots}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+    \item For the differential drive robot:\\
+        We want to find the $\xi_I$ after each chosen $\Delta t$.
+        To do this we can use the formula:
+        \begin{align*}
+            \dot{\xi_I} = R(q)^{-1}J_1^{-1} *J_2*\varphi
+        \end{align*}
+        where in the case of the differential drive:
+        \begin{align*}
+            R = \begin{bmatrix}
+                cos(q) & sin(q) & 0           \\[0.3em]
+                -sin(q) & cos(q)& 0           \\[0.3em]
+                0 & 0 & 1\\
+            \end{bmatrix}
+            J_1 =
+            \begin{bmatrix}
+                sin(\alpha_1 + \beta_1)  &-cos(\alpha_1 + \beta_1) & (-l)cos(\beta_1)\\
+                sin(\alpha_2 + \beta_2)  &-cos(\alpha_2 + \beta_2) & (-l)cos(\beta_2)\\
+                cos(\alpha_1 + \beta_1) & sin(\alpha + \beta)    &   lsin(\beta) \\
+            \end{bmatrix}
+        \end{align*}
+        \begin{align*}
+            J2 = 
+            \begin{bmatrix}
+                r_1 & 0 & 0 \\
+                0 & r_2 & 0 \\
+                0 & 0 & 0\\
+            \end{bmatrix},
+            \varphi(\Delta t) = 
+            \begin{bmatrix}
+                \varphi_1(\Delta t) \\
+                \varphi_2(\Delta t )\\ 
+                0\\
+            \end{bmatrix}
+        \end{align*}
+        The values inserted in $J_1$ are those of the constraints, with the
+        first two rows being the rolling constraint for both wheels and the
+        third column the sliding constraint for the robot.
+        The value for $\alpha_1 = \frac{-\pi}{2}  $ and $\beta_1 =\pi$. For $\alpha_2
+        = \frac{\pi}{2}$. 
+        $\beta_2 = 0$ for the differential drive. $J_2$ consists of the radii of
+        the wheel.
+        So filling this in will give: 
+        \begin{align*}
+            \dot{\xi_I} = R(q)^{-1} 
+            \begin{bmatrix}
+                0.5 & 0.5 & 0 \\
+                0   & 0   & 1 \\
+                \frac{1}{2l} & \frac{1}{2l} &0\\
+            \end{bmatrix}
+            \begin{bmatrix}
+                r_1\dot{\varphi_1} \\
+                r_2\dot{\varphi_2} \\
+                0\\
+            \end{bmatrix}
+        \end{align*}
+
+        Because with this formula only the velocity in the $x$, $y$ and $q$
+        position is given the new position (at time $t+\Delta t$) can be calculated with:
+        \begin{align*}
+            \xi^{t + \Delta t}_I = \xi^{t}_I + (\dot{\xi^{t + \Delta t}_I} *\Delta t )
+        \end{align*}
+    \item
+    \begin{enumerate}(a)
+    \item
+        \begin{align*}
+            \begin{bmatrix}
+            x\\
+            y\\
+            q\\
+        \end{bmatrix}^{t + \Delta t}
+            = 
+            \begin{bmatrix}
+            x\\
+            y\\
+            q\\
+        \end{bmatrix}^{t}
+        +( R(q)^{-1}  
+            \begin{bmatrix}
+                \frac{r_1\dot{\varphi_1}}{2} + \frac{r_2\dot{\varphi_2}}{2}\\
+            0\\
+           \frac{r_1\dot{\varphi_1}}{2l} + -\frac{r_2\dot{\varphi_2}}{2l}\\ 
+       \end{bmatrix}^{t}) * \Delta t
+        \end{align*}
+    \item
+        $ w(t) = \large{\frac{r_1\dot{\varphi_1}(t)}{2l} +
+        -\frac{r_2\dot{\varphi_2}(t)}{2l}}$\\
+        $ v = \frac{r_1\dot{\varphi_1}}{2} + \frac{r_2\dot{\varphi_2}}{2}$
+    \end{enumerate}
+\end{enumerate}
+
+
+\end{document}

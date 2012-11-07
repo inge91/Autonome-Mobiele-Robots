@@ -75,6 +75,13 @@ def path(pth):
 
     position = matrix([0.0, 0.0, 0.0]).T
 
+    # Create the odometrie tester object
+    tester = od.Odometry()
+
+    # Create right wheel and left wheel objects
+    left_wheel  = nxt.Motor(brick, nxt.PORT_C)
+    right_wheel = nxt.Motor(brick, nxt.PORT_B)
+
     for mover in pth:
         R = rotation_matrix(position[2, 0]) # from global to reference
         Rinv = np.linalg.inv(R)             # from reference to global
@@ -98,8 +105,38 @@ def path(pth):
             displacement = matrix([x_comp, y_comp, rot_radian]).T
             position += Rinv * displacement
 
+
+        # reset the wheel position
+        left_wheel.reset_position(False)
+        right_wheel.reset_position(False)
+
         mover.go()
-        time.sleep(1)
+        time.sleep(2)
+
+        
+        # store the rotations
+        left_rotations = left_wheel.get_tacho().rotation_count
+        right_rotations = right_wheel.get_tacho().rotation_count
+        print "left rotations in movement.py : ",
+        print left_rotations
+
+        if(isinstance(mover, Forward)):
+            # send rotation count to function that calculates position
+            print "distance"
+            print mover.distance
+            tester.add_rotations(left_rotations, right_rotations, mover.distance,
+                    mover.distance)
+        elif(isinstance(mover, Rotate)):
+            # if rotates around left give the rotation degree only to
+            # right_rotations
+            if(mover.wheel_port == LEFT_WHEEL):
+                tester.add_rotations(left_rotations, right_rotations,
+                        mover.distance * 2, 0)
+            else:
+                tester.add_rotations(left_rotations, right_rotations,
+                        0, mover.distance * 2)
+    ## Print the difference in x and y 
+    print tester.get_difference()
 
     return position
 

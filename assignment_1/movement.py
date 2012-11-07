@@ -146,6 +146,7 @@ def path(pth, brick):
 def main():
     # find a brick
     brick = nxt.find_one_brick()
+
     # start thread
     time.sleep(1)
     
@@ -158,9 +159,11 @@ def main():
     #lijst = [(move, 100, 200),(turn_left, 100, 180), (move, 100, 200),
     #        (turn_left, 100, 180), (move, 100, 200),(turn_left, 100, 180),
     #        (move, 100, 200)] 
-    lijst = [Forward(brick, 50, 360), Rotate(brick, 50, 180)]
-    position = path(lijst, brick)
+    lijst = [Forward(brick, 100, 1000), Rotate(brick, 100, 180),
+            Forward(brick, 100, 1000)]
+    position = path(lijst)
 
+   
 
     print "Final position:", position
 

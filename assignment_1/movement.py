@@ -41,22 +41,25 @@ class Forward():
         rightMover.join()
 
 class Rotate():
-    def __init__(self, brick, wheel_port, power, degrees):
+    def __init__(self, brick, power, degrees):
         self.brick      = brick
-        self.wheel_port = wheel_port
         self.power      = power
         self.degrees   = degrees
 
     def go(self):
-        wheel  = nxt.Motor(self.brick, self.wheel_port)
+        leftWheel  = nxt.Motor(self.brick, LEFT_WHEEL)
+        rightWheel = nxt.Motor(self.brick, RIGHT_WHEEL)
 
         # because we're only using one wheel, that single wheel must rotate
         # twice the desired rotation
-        turner = WheelMover(wheel, self.power, self.degrees * 2, False)
+        turner = WheelMover(leftWheel, self.power * -1, self.degrees * 2, True)
+        turner2 = WheelMover(rightWheel, self.power, self.degrees * 2, True)
 
         turner.start()
+        turner2.start()
 
         turner.join()
+        turner2.join()
 
 
 def path(pth):
@@ -117,7 +120,7 @@ def main():
     #lijst = [(move, 100, 200),(turn_left, 100, 180), (move, 100, 200),
     #        (turn_left, 100, 180), (move, 100, 200),(turn_left, 100, 180),
     #        (move, 100, 200)] 
-    lijst = [Forward(brick, 100, 1000), Rotate(brick, LEFT_WHEEL, 100, 180),
+    lijst = [Forward(brick, 100, 1000), Rotate(brick, 100, 180),
             Forward(brick, 100, 1000)]
     position = path(lijst)
 

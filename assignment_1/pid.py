@@ -27,6 +27,8 @@ class PID_straight(Thread):
 
     def run(self):
         errors = Errors()
+        leftPower  = 80
+        rightPower = 80
 
         while self.running:
             # reset the wheels
@@ -43,6 +45,8 @@ class PID_straight(Thread):
             # compared to the right wheel, thus compensation needs to be done on
             # the right wheel
             error = left_count - right_count
+
+
             errors.update(error)
 
             proportional = errors.current
@@ -50,4 +54,34 @@ class PID_straight(Thread):
             integral     = (errors.preprevious + errors.previous +
                     errors.current) / (3 * self.samplingTime)
 
-            print proportional, derivative, integral
+            rightCompensation = (0.01 * proportional + 0.01 * derivative +
+                    0.01 * integral)
+
+            if abs(error) > 3:
+                rightPower += rightCompensation
+                rightPower = min(rightPower, 127)
+                rightPower = max(rightPower, -128)
+
+            print leftPower, rightPower
+            print proportional
+
+            self.rightWheel.weak_turn(rightPower, 1000)
+            self.leftWheel.weak_turn(leftPower, 1000)
+
+if __name__ == '__main__':
+    import nxt
+    import movement as m
+
+    brick = nxt.find_one_brick()
+    leftWheel = nxt.Motor(brick, m.LEFT_WHEEL)
+    rightWheel = nxt.Motor(brick, m.RIGHT_WHEEL)
+
+    pid = PID_straight(leftWheel, rightWheel, 0.05)
+    pid.start()
+
+    for _ in xrange(5):
+        time.sleep(1)
+
+    pid.running = False
+    leftWheel.idle()
+    rightWheel.idle()

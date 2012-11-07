@@ -6,19 +6,21 @@
 \usepackage{placeins}
 
 \author{Maarten de Jonge \\
-Inge Becht}
+    Inge Becht\\
+Duncan ten Velthuis}
 \date{\today}
-\title{Autonome mobiele robots}
+\title{Autonome mobiele robots\\ 
+Assignment 1}
 
 \begin{document}
 \maketitle
 
 \begin{enumerate}
     \item For the differential drive robot:\\
-        We want to find the $\xi_I$ after each chosen $\Delta t$.
+        We want to find the $\xi_I$ at each $\Delta t$ interval.
         To do this we can use the formula:
         \begin{align*}
-            \dot{\xi_I} = R(q)^{-1}J_1^{-1} *J_2*\varphi
+            \dot{\xi_I} = R(q)^{-1}J_1^{-1} *J_2*\varphi(t)
         \end{align*}
         where in the case of the differential drive:
         \begin{align*}
@@ -41,10 +43,10 @@ Inge Becht}
                 0 & r_2 & 0 \\
                 0 & 0 & 0\\
             \end{bmatrix},
-            \varphi(\Delta t) = 
+            \varphi(t) = 
             \begin{bmatrix}
-                \varphi_1(\Delta t) \\
-                \varphi_2(\Delta t )\\ 
+                \varphi_1(t) \\
+                \varphi_2(t )\\ 
                 0\\
             \end{bmatrix}
         \end{align*}
@@ -52,10 +54,10 @@ Inge Becht}
         first two rows being the rolling constraint for both wheels and the
         third column the sliding constraint for the robot.
         The value for $\alpha_1 = \frac{-\pi}{2}  $ and $\beta_1 =\pi$. For $\alpha_2
-        = \frac{\pi}{2}$. 
-        $\beta_2 = 0$ for the differential drive. $J_2$ consists of the radii of
-        the wheel.
-        So filling this in will give: 
+        = \frac{\pi}{2}$ and
+        $\beta_2 = 0$. $J_2$ consists of the radii of
+        the wheels on the diagonal.
+        Filling in these values gives:
         \begin{align*}
             \dot{\xi_I} = R(q)^{-1} 
             \begin{bmatrix}
@@ -64,44 +66,45 @@ Inge Becht}
                 \frac{1}{2l} & \frac{1}{2l} &0\\
             \end{bmatrix}
             \begin{bmatrix}
-                r_1\dot{\varphi_1} \\
-                r_2\dot{\varphi_2} \\
+                r_1\varphi_1(t) \\
+                r_2\varphi_2(t) \\
                 0\\
             \end{bmatrix}
         \end{align*}
 
         Because with this formula only the velocity in the $x$, $y$ and $q$
-        position is given the new position (at time $t+\Delta t$) can be calculated with:
+        direction is given the new position (at time $t+\Delta t$) can be calculated with:
         \begin{align*}
-            \xi^{t + \Delta t}_I = \xi^{t}_I + (\dot{\xi^{t + \Delta t}_I} *\Delta t )
+            \xi^{t + \Delta t}_I = \xi^{t}_I + (\dot{\xi}^{t}_I *\Delta t )
         \end{align*}
     \item
-    \begin{enumerate}(a)
-    \item
-        \begin{align*}
-            \begin{bmatrix}
-            x\\
-            y\\
-            q\\
-        \end{bmatrix}^{t + \Delta t}
-            = 
-            \begin{bmatrix}
-            x\\
-            y\\
-            q\\
-        \end{bmatrix}^{t}
-        +( R(q)^{-1}  
-            \begin{bmatrix}
-                \frac{r_1\dot{\varphi_1}}{2} + \frac{r_2\dot{\varphi_2}}{2}\\
-            0\\
-           \frac{r_1\dot{\varphi_1}}{2l} + -\frac{r_2\dot{\varphi_2}}{2l}\\ 
-       \end{bmatrix}^{t}) * \Delta t
-        \end{align*}
-    \item
-        $ w(t) = \large{\frac{r_1\dot{\varphi_1}(t)}{2l} +
-        -\frac{r_2\dot{\varphi_2}(t)}{2l}}$\\
-        $ v = \frac{r_1\dot{\varphi_1}}{2} + \frac{r_2\dot{\varphi_2}}{2}$
-    \end{enumerate}
+    \begin{enumerate}{a}
+    \item Given without the constraints:
+                \begin{align*}
+                    \begin{bmatrix}
+                        x\\
+                        y\\
+                        q\\
+                    \end{bmatrix}^{t + \Delta t}
+                    = 
+                    \begin{bmatrix}
+                        x\\
+                        y\\
+                        q\\
+                    \end{bmatrix}^{t}
+                    +( R(q)^{-1}  
+                    \begin{bmatrix}
+                        \frac{r_1\dot{\varphi_1}}{2} + \frac{r_2\dot{\varphi_2}}{2}\\
+                        0\\
+                        \frac{r_1\dot{\varphi_1}}{2l} + -\frac{r_2\dot{\varphi_2}}{2l}\\ 
+                    \end{bmatrix}^{t}) * \Delta t
+                \end{align*}
+        \item
+            $ \dot{w}(t) = \large{\frac{r_1\dot{\varphi_1}(t)}{2l} +
+                -\frac{r_2\dot{\varphi_2}(t)}{2l}}$\\
+                $ \dot{v}(t) = \frac{r_1\dot{\varphi_1}(t)}{2} +
+                \frac{r_2\dot{\varphi_2}(t)}{2}$
+        \end{enumerate}
 \end{enumerate}
 
 

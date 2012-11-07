@@ -117,15 +117,11 @@ def path(pth, brick):
         # Store the rotations
         left_rotations = left_wheel.get_tacho().rotation_count
         right_rotations = right_wheel.get_tacho().rotation_count
-        print "left rotations in movement.py : ",
-        print left_rotations
 
 
         # Check what kind of movement is made
         if(isinstance(mover, Forward)):
             # send rotation count to function that calculates position
-            print "distance"
-            print mover.distance
             tester.add_rotations(left_rotations, right_rotations, mover.distance,
                     mover.distance)
 
@@ -138,6 +134,7 @@ def path(pth, brick):
             else:
                 tester.add_rotations(left_rotations, right_rotations,
                         - mover.degrees * 2, mover.degrees * 2)
+
     ## Print the difference in x and y 
     print tester.get_difference()
 
@@ -159,9 +156,8 @@ def main():
     #lijst = [(move, 100, 200),(turn_left, 100, 180), (move, 100, 200),
     #        (turn_left, 100, 180), (move, 100, 200),(turn_left, 100, 180),
     #        (move, 100, 200)] 
-    lijst = [Forward(brick, 100, 1000), Rotate(brick, 100, 180),
-            Forward(brick, 100, 1000)]
-    position = path(lijst)
+    lijst = [Forward(brick, 100, 360), Rotate(brick, 100, 180)]
+    position = path(lijst, brick)
 
    
 

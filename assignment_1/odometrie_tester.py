@@ -32,17 +32,25 @@ class Odometry:
     def get_difference(self):
 
         # In mm the real distances.
-        l_mm_real = (self.total_lreal / 360.0) * math.pi * (self.r1 * 2)
-        r_mm_real = (self.total_rreal / 360.0) * math.pi * (self.r2 * 2)
-        print "self total real:"
-        print self.total_lreal
-        print self.total_rreal
+        self.l_mm_real = (self.total_lreal / 360.0) * math.pi * (self.r1 * 2)
+        self.r_mm_real = (self.total_rreal / 360.0) * math.pi * (self.r2 * 2)
 
         # In mm the measured distances
-        l_mm_measured = (self.total_lmeasured / 360.0) * math.pi * (self.r1 * 2)
-        r_mm_measured = (self.total_rmeasured / 360.0) * math.pi * (self.r2 * 2)
-        print "self total measured:"
-        print self.total_lmeasured
-        print self.total_rmeasured
+        self.l_mm_measured = (self.total_lmeasured / 360.0) * math.pi * (self.r1 * 2)
+        self.r_mm_measured = (self.total_rmeasured / 360.0) * math.pi * (self.r2 * 2)
 
-        return (abs(l_mm_real - l_mm_measured), abs(r_mm_real - r_mm_measured))
+        return (abs(self.l_mm_real - self.l_mm_measured), abs(self.r_mm_real -
+            self.r_mm_measured))
+    
+    # Returns driven amount for both measured as specified
+    def get_total_driven(self):
+        return ((self.l_mm_real + self.r_mm_real)/2.0 , (self.l_mm_measured +
+            self.r_mm_measured)/2.0)
+        
+    
+
+
+
+
+
+

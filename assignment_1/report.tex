@@ -78,7 +78,7 @@ Assignment 1}
             \xi^{t + \Delta t}_I = \xi^{t}_I + (\dot{\xi}^{t}_I *\Delta t )
         \end{align*}
     \item
-    \begin{enumerate}{a}
+    \begin{enumerate}{a} 
     \item Given without the constraints:
                 \begin{align*}
                     \begin{bmatrix}
@@ -105,6 +105,35 @@ Assignment 1}
                 $ \dot{v}(t) = \frac{r_1\dot{\varphi_1}(t)}{2} +
                 \frac{r_2\dot{\varphi_2}(t)}{2}$
         \end{enumerate}
+
+    \item{
+            This exercise was made in python. To control the robot we created 
+            a movement API (see \tttext{movement.py})
+            in which we distinguish between two possible motions; moving forward
+            and rotating. For moving forward only motor speed and number of
+            rotation degrees has to be specified by the user and this gets assigned to both
+            wheels. For a rotation the robot rotates around point p between the
+            wheels by moving
+            one wheel forward and one wheel backward the same amount of degrees.
+            Previously this rotation was around the other stationary wheel but
+            this caused inaccuracy due to increased friction of the wheel's
+            contact surface and it was for that reason decided to change this. 
+            To construct a path for the robot to drive, a list of forward and rotation
+            movements is specified with the desired speed and angle.
+
+            For both movement types (rotation and straight ahead) we tested both using 
+            brakes and not using breaks (by changing the brake argument in the run function). 
+            Using breaks works much better than not using brakes for the
+            odometrie model as then the specified number of turns are closer to
+            the retrieved number of turns from the sensor data.
+
+            We created two odometry models. The first model checked after every
+            movement of the robot (so after each transition from moving straight
+            ahead and rotating) if the specified amount of driven milimeters was the
+            same as the actually specified amount of milimeters.  
+        }
+        
+
 \end{enumerate}
 
 

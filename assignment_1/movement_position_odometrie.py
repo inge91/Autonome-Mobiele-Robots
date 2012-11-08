@@ -3,7 +3,7 @@ import numpy
 from pylab import *
 from threading import Thread
 import time
-import odometrie_tester as od
+import odometrie_position_tester as od
 
 LEFT_WHEEL    = nxt.PORT_C
 RIGHT_WHEEL   = nxt.PORT_B
@@ -31,8 +31,8 @@ class Forward():
         left_wheel  = nxt.Motor(self.brick, nxt.PORT_C)
         right_wheel = nxt.Motor(self.brick, nxt.PORT_B)
 
-        leftMover  = WheelMover(left_wheel, self.power, self.distance, False)
-        rightMover = WheelMover(right_wheel, self.power, self.distance, False)
+        leftMover  = WheelMover(left_wheel, self.power, self.distance, True)
+        rightMover = WheelMover(right_wheel, self.power, self.distance, True)
 
         leftMover.start()
         rightMover.start()
@@ -75,12 +75,6 @@ def path(pth):
 
     position = matrix([0.0, 0.0, 0.0]).T
 
-    # Create the odometrie tester object
-    tester = od.Odometry()
-
-    # Create right wheel and left wheel objects
-    left_wheel  = nxt.Motor(brick, nxt.PORT_C)
-    right_wheel = nxt.Motor(brick, nxt.PORT_B)
 
     for mover in pth:
         R = rotation_matrix(position[2, 0]) # from global to reference
@@ -106,44 +100,17 @@ def path(pth):
             position += Rinv * displacement
 
 
-        # reset the wheel position
-        left_wheel.reset_position(False)
-        right_wheel.reset_position(False)
 
         mover.go()
-        time.sleep(2)
+        time.sleep(1)
 
-        
-        # store the rotations
-        left_rotations = left_wheel.get_tacho().rotation_count
-        right_rotations = right_wheel.get_tacho().rotation_count
-        print "left rotations in movement.py : ",
-        print left_rotations
-
-        if(isinstance(mover, Forward)):
-            # send rotation count to function that calculates position
-            print "distance"
-            print mover.distance
-            tester.add_rotations(left_rotations, right_rotations, mover.distance,
-                    mover.distance)
-        elif(isinstance(mover, Rotate)):
-            # if rotates around left give the rotation degree only to
-            # right_rotations
-            if(mover.wheel_port == LEFT_WHEEL):
-                tester.add_rotations(left_rotations, right_rotations,
-                        mover.distance * 2, 0)
-            else:
-                tester.add_rotations(left_rotations, right_rotations,
-                        0, mover.distance * 2)
-    ## Print the difference in x and y 
-    print tester.get_difference()
 
     return position
 
 def main():
     # find a brick
     brick = nxt.find_one_brick()
-    odometer = od.Odometry(brick, 1000, 4)
+    odometer = od.Odometry(brick, 100, 4)
     # start thread
     odometer.start()
     time.sleep(1)
@@ -152,13 +119,11 @@ def main():
             distance)
     turn_left = lambda brick, power, distance: rotate(brick, RIGHT_WHEEL, power,
             distance)
-    #lijst = [(move, 100, 200),(turn_left, 100, 120), (move, 100, 200),
-    #        (turn_right, 100, 120)] 
-    #lijst = [(move, 100, 200),(turn_left, 100, 180), (move, 100, 200),
-    #        (turn_left, 100, 180), (move, 100, 200),(turn_left, 100, 180),
-    #        (move, 100, 200)] 
-    lijst = [Forward(brick, 100, 1000), Rotate(brick, 100, 180),
-            Forward(brick, 100, 1000)]
+
+    #### Forward(brick, motorspeed, degree_amount) Rotate(brick, speed)
+    #### If rotate speed is positive than robot will turn left else robot will
+    ####turn right
+    lijst = [Forward(brick, 65, 360), Rotate(brick, 65, 90)]
     position = path(lijst)
 
     odometer.join()

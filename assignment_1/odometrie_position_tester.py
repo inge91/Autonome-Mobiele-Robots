@@ -24,8 +24,6 @@ class Odometry(Thread):
         
         #j2 matrix
         self.j2 = np.matrix([[self.r1, 0 ],[0, self.r2]])
-        print "J is",
-        print self.j2
 
         # ength 
         self.length = 60
@@ -45,8 +43,6 @@ class Odometry(Thread):
         self.j1 =  np.matrix([[0.5, 0.5, 0],[0, 0, 1],[1/(2.0*self.length),
             -1/(2.0*self.length), 0 ]]) 
 
-        print "j1 is",
-        print self.j1
         # The beginning position 
         self.x = 0.0 
         self.y = 0.0 
@@ -79,52 +75,28 @@ class Odometry(Thread):
             ### Variation smoother added###
             if(abs(left_tacho - right_tacho) < self.variation):
                 left_tacho = right_tacho
-            print "left_tacho: ",
-            print left_tacho
-            print "right_tacho: ",
-            print right_tacho
-
             
             # add to total count
             self.total_count_left += left_tacho
             self.total_count_right += right_tacho
-
-            print "total tacho left",
-            print self.total_count_left
-            print "total tacho right",
-            print self.total_count_right
 
             # Calculate the derivative of phi1 & phi2 (mm/ms)
             #         mm                 degrees            
             phi1 = ((self.r1 * 2) * math.pi * (left_tacho/360.0)) /self.time_step
             phi2 = ((self.r2 * 2) * math.pi * (right_tacho/360.0)) /self.time_step
 
-            print "phi1: ",
-            print phi1
-
-            print "phi2: ",
-            print phi1
 
             # Construct phi matrix:
             phi = np.matrix([[phi1], [phi2], [0]])
-            print "phi: ",
-            print phi
 
 
             
             # Rotation matrix constructed using current theta
             R = self.rotate(self.theta)
 
-            print "j1",
-            print self.j1
 
             # Calculate derivative I
             der_I = (np.linalg.inv(R) * self.j1) * phi
-            print "der I: ",
-            print der_I
-            print "theta I",
-            print der_I[2,0]
-
 
 
             # Calculate new I

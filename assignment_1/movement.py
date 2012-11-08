@@ -135,8 +135,17 @@ def path(pth, brick):
                 tester.add_rotations(left_rotations, right_rotations,
                         - mover.degrees * 2, mover.degrees * 2)
 
-    ## Print the difference in x and y 
-    print tester.get_difference()
+    # Print the difference for left and right tire
+    left, right = tester.get_difference()
+    print "Difference in left tire: " + str(left) + " mm" 
+    print "Difference in right tire: " + str(right) + " mm"
+    
+    total, measured = tester.get_total_driven()
+    # Print amount of mm driven"
+    print "Amount of mm really driven : ",
+    print measured
+    print "Amount of mm specified to be driven : ",
+    print total
 
     return position
 
@@ -151,17 +160,16 @@ def main():
             distance)
     turn_left = lambda brick, power, distance: rotate(brick, RIGHT_WHEEL, power,
             distance)
-    #lijst = [(move, 100, 200),(turn_left, 100, 120), (move, 100, 200),
-    #        (turn_right, 100, 120)] 
-    #lijst = [(move, 100, 200),(turn_left, 100, 180), (move, 100, 200),
-    #        (turn_left, 100, 180), (move, 100, 200),(turn_left, 100, 180),
-    #        (move, 100, 200)] 
-    lijst = [Forward(brick, 100, 360), Rotate(brick, 100, 180)]
+
+
+    #### Forward(brick, motorspeed, degree_amount) Rotate(brick, speed)
+    #### If rotate speed is positive than robot will turn left else robot will
+    ####turn right
+    #lijst = [Forward(brick, 100, 720), Rotate(brick, 100, 90), Forward(brick,
+    #    100, 720), Rotate(brick, -100, 90), Forward(brick, 100, 720)]
+    lijst = [Forward(brick, 100, 360)]
     position = path(lijst, brick)
 
-   
-
-    print "Final position:", position
 
 if __name__ == "__main__":
     main()

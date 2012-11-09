@@ -107,25 +107,31 @@ Assignment 1}
         \end{enumerate}
 
     \item
-            This exercise was made in python. To control the robot we created 
-            a movement API (see \texttt{movement.py})
+            This exercise was made in Python using the nxt-python library. To
+            control the robot we created a simple movement API (see \texttt{movement.py})
             in which we distinguish between two possible motions; moving forward
-            and rotating. For moving forward only motor speed and number of
-            rotation degrees has to be specified by the user and this gets assigned to both
-            wheels. For a rotation the robot rotates around point p between the
-            wheels by moving
-            one wheel forward and one wheel backward the same amount of degrees.
-            Previously this rotation was around the other stationary wheel but
-            this caused inaccuracy due to increased friction of the wheel's
-            contact surface and it was for that reason decided to change this. 
-            To construct a path for the robot to drive, a list of forward and rotation
-            movements is specified with the desired speed and angle.
+            and rotating. For moving forward, the motor power and wheel rotation
+            (in degrees) have to be specified, and the robot will move by
+            rotating both wheels at the given rotation angle. 
+            
+            There's two ways to do a rotation; leaving one wheel stationary and
+            rotating the other one (thus rotating around the stationary wheel),
+            or spinning both wheels in the opposite direction, rotating around
+            the point between the two wheels. In practise, the first method
+            doesn't perform as well due to increased friction on the stationary
+            wheel. The rotation function in our API takes a rotation for the
+            robot to perform along with motor power. Positive motor power will
+            turn counterclockwise, negative power will turn clockwise.
 
-            For both movement types (rotation and straight ahead) we tested both using 
-            brakes and not using breaks (by changing the brake argument in the run function). 
-            Using breaks works much better than not using brakes for the
-            odometrie model as then the specified number of turns are closer to
-            the retrieved number of turns from the sensor data.
+            To construct a path for the robot to drive, a list of forward
+            movements and rotations can be specified, which will be executed
+            sequentially.
+
+            For both movement types (rotation and straight ahead) we tested both
+            braking and not breaking after each movement.  brakes and not using
+            brakes.  Using brakes works much better than not using brakes for
+            the odometrie model as the specified number of rotations will be
+            closer to the retrieved number of rotations from the sensor data.
 
             We created two odometry models. The first model checked after every
             movement of the robot (so after each transition from moving straight
@@ -133,18 +139,33 @@ Assignment 1}
             same as the actually driven amount of milimeters. This is done by
             reading the rotation count from the wheels after every movement. See
             \texttt{odometrie\_tester.py} for the functions that enable this
-            odometrie model and in function \texttt{path} of \texttt{movement.py} the interaction
-            between movement modules and the rotation counts is shown. To apply
-            this odometrie run \texttt{movement.py}
+            odometrie model and in function \texttt{path} of
+            \texttt{movement.py} the interaction between movement modules and
+            the rotation counts is shown. To apply this odometrie run
+            \texttt{movement.py}
             
             The file \texttt{odometrie\_position\_tester.py} is the second
             odometrie model in which the kinematics model is constructed in the
-            same way as is given in question 1. The idea here is to find the
-            $x$, $y$ and $q$ in environmental frame for the robot in each time
-            interval. This odometrie model starts when running
+            same way as is given in question 1. The idea here is to keep track
+            of the robot's position ($x$, $y$ and $q$) in a global reference
+            frame with a given sampling rate, taking the initial pose of the
+            robot as the origin. This odometrie model starts when running
             \texttt{movement\_position\_odometrie.py} and works as a background
             thread, every 100 milliseconds updating the environmental position.
 
+            A simple PID controller has been implemented for correcting the
+            robot's trajectory when driving straight. It works by measuring the
+            rotational speeds of both wheels and taking their difference as the
+            error function (the more equal the wheel speeds are, the straighter
+            you're driving). The nxt-python library only offers one way to
+            influence the power of already rotating wheels, which wouldn't work
+            well together with our earlier motion functions. For this reason the
+            PID controller is implemented in a seperate test-function (in the file
+            \texttt{pid.py}). It actuates by keeping the power of
+            the left wheel constant (at 80), and converting the output of the
+            controller to a value that will be added to the power of the right
+            wheel, in an attempt to balance the wheels' powers such that they
+            both rotate equally fast.
 \end{enumerate}
 
 

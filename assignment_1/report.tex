@@ -106,9 +106,9 @@ Assignment 1}
                 \frac{r_2\dot{\varphi_2}(t)}{2}$
         \end{enumerate}
 
-    \item{
+    \item
             This exercise was made in python. To control the robot we created 
-            a movement API (see \tttext{movement.py})
+            a movement API (see \texttt{movement.py})
             in which we distinguish between two possible motions; moving forward
             and rotating. For moving forward only motor speed and number of
             rotation degrees has to be specified by the user and this gets assigned to both
@@ -130,9 +130,20 @@ Assignment 1}
             We created two odometry models. The first model checked after every
             movement of the robot (so after each transition from moving straight
             ahead and rotating) if the specified amount of driven milimeters was the
-            same as the actually specified amount of milimeters.  
-        }
-        
+            same as the actually driven amount of milimeters. This is done by
+            reading the rotation count from the wheels after every movement. See
+            \texttt{odometrie\_tester.py} for the functions that enable this
+            odometrie model and in function \texttt{path} of \texttt{movement.py} the interaction
+            between movement modules and the rotation counts is shown. To apply
+            this odometrie run \texttt{movement.py}
+            
+            The file \texttt{odometrie\_position\_tester.py} is the second
+            odometrie model in which the kinematics model is constructed in the
+            same way as is given in question 1. The idea here is to find the
+            $x$, $y$ and $q$ in environmental frame for the robot in each time
+            interval. This odometrie model starts when running
+            \texttt{movement\_position\_odometrie.py} and works as a background
+            thread, every 100 milliseconds updating the environmental position.
 
 \end{enumerate}
 

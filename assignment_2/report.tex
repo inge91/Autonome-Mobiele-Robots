@@ -102,7 +102,7 @@ thresholded.
 \begin{floatrow}
     \ffigbox[\FBwidth]{\caption{Threshold = 100 applied with angstep =
     1}\label{fig:thresh100}}{
-  \includegraphics[width=0.5\textwidth]{blach_thresh_100.png}}
+  \includegraphics[width=0.5\textwidth]{black_thresh_100.png}}
   
   \ffigbox[\FBwidth]{Threshold = 75. Applied with angstep =1}
   \label{fig:thresh75}}{
@@ -114,16 +114,53 @@ Different values for $\alpha$ were experimented with. In case of the robot in
 Zurich, $\alpha$ was given the value of 95 pixels. In our experimentations we
 chose for $\alpha$ the values
 
-\
+\{Varying parameter values}
 The data set with all experimentations of angstep, the black and white
 threshold and  $\alpha$ was created by running \texttt{create\_dataset.m} and can be run with
-or without calibration. The following different combination of values were used:e
+or without calibration. The following different combination of values were
+used:\\
 
-angstep
-alpha
+\begin{align*}
+    angstep  \in \{0.05, 0.5, 1, 1.5, 2, 5, 10\}\\
+    BWthresh \in \{75, 80, 85, 90, 95 100\}\\
+    \alpha   \in \{80, 95, 100, 120, 130, 150\}\\
+\end{align*}
 
-The best looking maps were picked by hand  by looking at the final created maps,  and can be seen by
 
+\subsection{Varying $\alpha$}
+
+When varying the values of $\alpha$ and keeping $angstep = 0.05$ and $BWthresh=
+80$ we get the results seen in figure \ref{fig:alpha1}, \ref{fig:alpha2}
+\ref{fig:alpha3}, \ref{fig:alpha4}.These images show that $\alpha$ should not be
+taken higher than 130 pixels as than the lines begin to deform in the shape of
+the mirror, which has probably to do with a less than optimal calibration. This
+would make it harder to do edge ore line detection. Also,
+the parameter should not be chosen less than 120 pixels as than the position
+estiation is not all that precise.
+
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+    \ffigbox[\FBwidth]{\caption{$\alpha = 95$ }\label{fig:alpha1}}{
+  \includegraphics[width=0.5\textwidth]{fig8.png}}
+  
+  \ffigbox[\FBwidth]{$\alpha = 100 $}
+  \label{fig:alpha2}}{
+  \includegraphics[width=0.5\textwidth]{fig9.png}}
+\end{floatrow}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+    \ffigbox[\FBwidth]{\caption{$\alpha =130 $ }\label{fig:alpha3}}{
+  \includegraphics[width=0.5\textwidth]{fig11.png}}
+  
+  \ffigbox[\FBwidth]{$\alpha = 150 $}
+  \label{fig:alpha4}}{
+  \includegraphics[width=0.5\textwidth]{fig12.png}}
+\end{floatrow}
+\end{figure}
 
 
 

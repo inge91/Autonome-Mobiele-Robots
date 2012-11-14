@@ -1,0 +1,130 @@
+\documentclass[a4paper, 20pt]{report}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{placeins}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{floatrow}
+
+\author{Maarten de Jonge \\
+    Inge Becht\\
+Duncan ten Velthuis}
+\date{\today}
+\title{Assignment 2\\ 
+Making a range finder using an omni-directional camera }
+
+\begin{document}
+\maketitle
+
+This assignment is about making a range finder using an omni-directional
+camera on a lego robot. 
+Because most of the code was already given in the assignment, this report
+will mostly consist of the experimenting with values for different variables to
+create the best possible mapping of the camera visualisation and the real world.
+In the end the error will be visualised using the best possible calibration
+settings and variable values found.
+
+\section{The steps towards simulating a range finder}
+
+The first step towards creating the final map is calibrating the camera. For
+this purpose thei script \texttt{calibrate\_camera\_offline.m} was modified to
+work with a single picture taken from the omnidirectional camera, as shown in
+figure \ref{fig:snapshot}
+
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=0.5\textwidth]{omni_snapshot.jpg}
+  \label{fig:snapshot}
+  \caption{A snapshot from the omnidirectional camera}
+\end{figure}
+
+calibration values were set: $Rmin = 77,Rmax = 160, Centre\_x = 325.2203 and
+Centre\_y =  225.0$
+
+This created the spaces as can be seen in figure \ref{fig:circles}, where the space spanned between the
+outer pink circle to
+the inner pink circle is the used data in the rest of the report. Figure
+\ref{fig:straight} shows this part of the images straightened out.
+
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+  \ffigbox[\FBwidth]{\caption{Circle indicating used mirror space}\label{fig:circles}}{
+  \includegraphics[width=0.5\textwidth]{map_images/camera_spaces.jpg}}
+  
+  \ffigbox[\FBwidth]{\caption{Flipped and straightened image} \label{fig:straight}}{
+  \includegraphics[width=0.5\textwidth]{map_images/straightened_image.jpg}}
+\end{floatrow}
+\end{figure}
+
+
+To extract the walls from the original image, it needs to be unwarped and all
+data that does not fall between the two pink lines in \ref{fig:circles} needs to
+be thrown away. The premade \texttt{imunwrap.m} script does exactly this. It
+takes a new parameter $angstep$ which determines the angular resolution of the
+simulated laser scanner. The bigger the angle the worse the resolution is, as
+can be seen in figure ref{fig:angstep0.05} and ref{fig:angstep5}
+
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+    \ffigbox[\FBwidth]{\caption{\texttt{imunwrap.m} applied with angstep = 0.05}\label{fig:angstep0.05}}{
+  \includegraphics[width=0.5\textwidth]{rectangle_0_05.png}}
+  
+  \ffigbox[\FBwidth]{\caption{\texttt{imunwrap.m} applied with angstep =5}
+  \label{fig:angstep5}}{
+  \includegraphics[width=0.5\textwidth]{rectangle_5png.png}}
+\end{floatrow}
+\end{figure}
+
+At first one would say a lower angle would be more precise in the funal mapping, 
+but the problem with a lower angle is the great amount of detail that will be
+kept in the image and thus a
+great amount of noise that comes with it. A too high angular step, however,
+could make the distance estimation less accurate.
+$Angstep$ is thus one of the parameters with
+wich will be experimentated to find the approximate best one.
+
+Whatever the chosen angstep is, there still needs to be some more noise
+reduction to accentuate the position of the wall pieces. A simple black and
+white threshold is used for this. A more difficult choice is however at what
+value to set the threshold, something that can not be determined from a single
+image, but we still try to approximate it that way. In figure \ref{fig:thresh100} and
+\ref{fig:thresh75} two different tresholds can be seen. Note that the white
+values  of the pixels have not been normalised.
+thresholded.
+
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+    \ffigbox[\FBwidth]{\caption{Threshold = 100 applied with angstep =
+    1}\label{fig:thresh100}}{
+  \includegraphics[width=0.5\textwidth]{blach_thresh_100.png}}
+  
+  \ffigbox[\FBwidth]{Threshold = 75. Applied with angstep =1}
+  \label{fig:thresh75}}{
+  \includegraphics[width=0.5\textwidth]{black_thresh_75.png}}
+\end{floatrow}
+\end{figure}
+
+Different values for $\alpha$ were experimented with. In case of the robot in
+Zurich, $\alpha$ was given the value of 95 pixels. In our experimentations we
+chose for $\alpha$ the values
+
+\
+The data set with all experimentations of angstep, the black and white
+threshold and  $\alpha$ was created by running \texttt{create\_dataset.m} and can be run with
+or without calibration. The following different combination of values were used:e
+
+angstep
+alpha
+
+The best looking maps were picked by hand  by looking at the final created maps,  and can be seen by
+
+
+
+
+\end{document}

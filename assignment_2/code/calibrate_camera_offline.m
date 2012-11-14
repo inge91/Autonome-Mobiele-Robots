@@ -33,5 +33,7 @@ ud = unwrap_allimage(snapshot, center, Rmax, 1, 0); figure(2); imagesc(ud);
 hold on; line ( [0, size(ud,2) ], [ round(radius), round(radius) ] , 'Color', 'r', 'LineWidth', 2);
 % Draw Rmin
 hold on; line ( [0, size(ud,2) ], [ round(Rmin), round(Rmin) ] , 'Color', 'm', 'LineWidth', 2);
+
+saveas(gcf, 'straightened_image.jpg','jpg' )
 hold off;
 

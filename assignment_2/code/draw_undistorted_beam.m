@@ -20,7 +20,7 @@ str1(5) = {'alpha'};
 str1(6) = {alpha};
 text(0.72,0.7,str1)
 countstr = num2str(count)
-path = strcat('fig', countstr, '.jpg') 
+path = strcat('/../fig', countstr, '.jpg') 
 saveas(gcf,path, 'jpg')
 close all
 hold off;

@@ -15,13 +15,13 @@
 %--------------------------------------------------------------------------
 %Ask for the installed video library
 imaqhwinfo
-videoinfo = imaqhwinfo('winvideo')
+videoinfo = imaqhwinfo('linuxvideo')
 AdaptorName = videoinfo.AdaptorName;
-DeviceID = videoinfo.DeviceInfo.DeviceID;% recover the address of the video device
+DeviceID = 1;% recover the address of the video device
 
 %List the supported formats
 videoinfo.DeviceInfo.SupportedFormats
-format = 'RGB32_640x480';
+format = 'YUYV_640x480';
 
 %--------------------------------------------------------------------------
 %CREATE A VIDEO INPUT OBJECT

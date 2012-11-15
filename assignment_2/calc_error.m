@@ -1,4 +1,4 @@
-response = input('Do you want to calibrate the camera?[0/1]\n>');
+ response = input('Do you want to calibrate the camera?[0/1]\n>');
 if response == 1
    calibrate_camera_offline
 end
@@ -32,17 +32,17 @@ angsteps = 1;
 
         
         %alphas =[80, 95, 100, 120, 130, 150];
-        alphas = 90;
+        alphas = 150;
         
             height = 0.33;
             dist = undistort_dist_points(theta, rho, alphas(1), height);
         
             figure;
             axislimit = 1;
-            draw_undistorted_beam(dist, theta, axislimit, angsteps(1), BWthresholds(1), 90, count);
+            draw_undistorted_beam(dist, theta, axislimit, angsteps(1), BWthresholds(1), 130, count);
             count = count + 1
             
-            sigma_dist = compute_uncertainty(rho,5,  90, height);
+            sigma_dist = compute_uncertainty(rho,5,  130, height);
             hold on;
             draw_uncertainty(dist, theta, sigma_dist);
   

@@ -20,7 +20,7 @@ Making a range finder using an omni-directional camera }
 This assignment is about making a range finder using an omni-directional
 camera on a lego robot. 
 Because most of the code was already given in the assignment, this report
-will mostly consist of the experimenting with values for different variables to
+mostly consists of experimenting with values for different variables to
 create the best possible mapping of the camera visualisation and the real world.
 In the end the error will be visualised using the best possible calibration
 settings and variable values found.
@@ -40,8 +40,8 @@ figure \ref{fig:snapshot}
   \caption{A snapshot from the omnidirectional camera}
 \end{figure}
 
-calibration values were set: $Rmin = 77,Rmax = 160, Centre\_x = 325.2203 and
-Centre\_y =  225.0$
+calibration values were set: $Rmin = 77$ , $Rmax = 160$, $Centre\_x = 325.2203$ and
+$Centre\_y =  225.0$
 
 This created the spaces as can be seen in figure \ref{fig:circles}, where the space spanned between the
 outer pink circle to
@@ -65,7 +65,7 @@ data that does not fall between the two pink lines in \ref{fig:circles} needs to
 be thrown away. The premade \texttt{imunwrap.m} script does exactly this. It
 takes a new parameter $angstep$ which determines the angular resolution of the
 simulated laser scanner. The bigger the angle the worse the resolution is, as
-can be seen in figure ref{fig:angstep0.05} and ref{fig:angstep5}
+can be seen in figure \ref{fig:angstep0.05} and \ref{fig:angstep5}.
 
 \begin{figure}[!ht]
 \centering
@@ -169,7 +169,8 @@ When varying the values of $BWthresh$ and keeping $angstep = 0.05$ and $\alpha=
 \ref{fig:bw3} and \ref{fig:bw4}. It seems that in the chosen threshold range it
 does not really matter that much what value you use.
 But as stated earlier, this result should be taken lightly, as it is only
-constructed with a single image with only one kind of lighting condition
+constructed with a single image with only one kind of lighting condition.
+Depending on the final use of the images a better threshold should be considered
 \begin{figure}[!ht]
 \centering
 \begin{floatrow}
@@ -199,7 +200,7 @@ When varying the values of $\alpha$ and keeping $angstep = 0.05$ and $BWthresh=
 \ref{fig:alpha3}, \ref{fig:alpha4}.These images show that $\alpha$ should not be
 taken higher than 130 pixels as than the lines begin to deform in the shape of
 the mirror, which has probably to do with a less than optimal calibration. This
-would make it harder to do edge ore line detection. Also,
+would make it harder to do edge or line detection. Also,
 the parameter should not be chosen less than 120 pixels as than the position
 estiation is not all that precise.
 
@@ -238,21 +239,20 @@ and in figure \ref{fig:error2} in case of less than optimal parameters.
 We are not sure why the camera position creates such large errors in case of
 figure \ref{fig:error2}. It does not have to do with camera
 calibration,
-because it never happens in case of good parameter choices. It probably is
-a byproduct of using wrong 
+because it never happens in case of good parameter choices.
 
 the case with ...
 \begin{figure}[!ht]
 \centering
 \begin{floatrow}
-    \ffigbox[\FBwidth]{\caption{$The image showing the distance error in case of
+    \ffigbox[\FBwidth]{\caption{The image showing the distance error in case of
     $\alpha = 130$, $angstep = 0.05$ and $BWthresh = 90$ }\label{fig:error}}{
   \includegraphics[width=0.7\textwidth]{error_image.png}}
   
   \ffigbox[\FBwidth]{\caption{The image showing the distance error in case
-      of$\alpha = 90$, $angstep = 1$ and $BWthresh = 90$ }
+      of$\alpha = 90$, $angstep = 1$ and $BWthresh = 90$}
   \label{fig:error2}}{
-  \includegraphics[width=0.7\textwidth]{error_image2.jpg}}
+  \includegraphics[width=0.7\textwidth]{error_image2.png}}
 \end{floatrow}
 \end{figure}
 

@@ -34,6 +34,5 @@ hold on; line ( [0, size(ud,2) ], [ round(radius), round(radius) ] , 'Color', 'r
 % Draw Rmin
 hold on; line ( [0, size(ud,2) ], [ round(Rmin), round(Rmin) ] , 'Color', 'm', 'LineWidth', 2);
 
-saveas(gcf, 'straightened_image.jpg','jpg' )
 hold off;
 

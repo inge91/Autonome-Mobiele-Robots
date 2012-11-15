@@ -1,4 +1,4 @@
-\documentclass[a4paper, 20pt]{report}
+\documentclass[a4paper, 20pt]{article}
 \usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -9,8 +9,7 @@
 \usepackage{floatrow}
 
 \author{Maarten de Jonge \\
-    Inge Becht\\
-Duncan ten Velthuis}
+    Inge Becht}
 \date{\today}
 \title{Assignment 2\\ 
 Making a range finder using an omni-directional camera }
@@ -104,17 +103,21 @@ thresholded.
     1}\label{fig:thresh100}}{
   \includegraphics[width=0.5\textwidth]{black_thresh_100.png}}
   
-  \ffigbox[\FBwidth]{Threshold = 75. Applied with angstep =1}
+  \ffigbox[\FBwidth]{\caption{Threshold = 75. Applied with angstep =1}
   \label{fig:thresh75}}{
   \includegraphics[width=0.5\textwidth]{black_thresh_75.png}}
 \end{floatrow}
 \end{figure}
 
+With this constructed image the following step is to iterate through all the
+white pixels from the left side.  Now using
+the height of the robot(around 0.33 meters) and a certain $\alpha$ the distance towards these
+black points can be calculated.
 Different values for $\alpha$ were experimented with. In case of the robot in
-Zurich, $\alpha$ was given the value of 95 pixels. In our experimentations we
-chose for $\alpha$ the values
+Zurich, $\alpha$ was given the value of 95 pixels, so we experiment around these
+values as well.
 
-\{Varying parameter values}
+\subsection{Varying parameter values}
 The data set with all experimentations of angstep, the black and white
 threshold and  $\alpha$ was created by running \texttt{create\_dataset.m} and can be run with
 or without calibration. The following different combination of values were
@@ -126,9 +129,71 @@ used:\\
     \alpha   \in \{80, 95, 100, 120, 130, 150\}\\
 \end{align*}
 
+\subsection{Varying $angstep$}
 
+When using $BWthresh = 75 $ and $\alpha = 130$ and varying $angstep$, we get
+figure \ref{fig:angstep1}, \ref{fig:angstep2}, \ref{fig:angstep3},
+\ref{fig:angstep4}. Although first concerns were given for taking a too high
+resolution, from this data we can see clearly that taking the smallest
+angular step tested does not create too much noise for the purpose of line
+detection. In case of the $angstep = 0.05$, we can identify 5 clear outliers and
+in the case of $angstep =2$ only 3 less than this. It seems there doesn't have to
+be a big trade-off between resolution and accuracy.
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+  \ffigbox[\FBwidth]{\caption{$angstep = 0.05$ }\label{fig:angstep1}}{
+  \includegraphics[width=0.7\textwidth]{fig5.jpg}}
+  \ffigbox[\FBwidth]{\caption{$angstep = 0.5 $}
+  \label{fig:angstep2}}{
+  \includegraphics[width=0.7\textwidth]{fig41.jpg}}
+\end{floatrow}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+    \ffigbox[\FBwidth]{\caption{$angstep =1 $ }\label{fig:angstep3}}{
+  \includegraphics[width=0.7\textwidth]{fig77.jpg}}
+  
+  \ffigbox[\FBwidth]{\caption{$angstep = 2 $}
+  \label{fig:angstep4}}{
+  \includegraphics[width=0.7\textwidth]{fig149.jpg}}
+\end{floatrow}
+\end{figure}
+
+\FloatBarrier
+\subsection{Varying $BWThresh$}
+When varying the values of $BWthresh$ and keeping $angstep = 0.05$ and $\alpha=
+130$ we get the results seen in figure \ref{fig:bw1}, \ref{fig:bw2},
+\ref{fig:bw3} and \ref{fig:bw4}. It seems that in the chosen threshold range it
+does not really matter that much what value you use.
+But as stated earlier, this result should be taken lightly, as it is only
+constructed with a single image with only one kind of lighting condition
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+  \ffigbox[\FBwidth]{\caption{$BWthresh = 75$ }\label{fig:bw1}}{
+  \includegraphics[width=0.7\textwidth]{fig5.jpg}}
+  \ffigbox[\FBwidth]{\caption{$BWthresh = 85 $}
+  \label{fig:bw2}}{
+  \includegraphics[width=0.7\textwidth]{fig17.jpg}}
+\end{floatrow}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+  \ffigbox[\FBwidth]{\caption{$BWthresh = 90$ }\label{fig:bw3}}{
+  \includegraphics[width=0.7\textwidth]{fig5.jpg}}
+  \ffigbox[\FBwidth]{\caption{$BWthresh = 100 $}
+  \label{fig:bw4}}{
+  \includegraphics[width=0.7\textwidth]{fig35.jpg}}
+\end{floatrow}
+\end{figure}
+
+\FloatBarrier
 \subsection{Varying $\alpha$}
-
 When varying the values of $\alpha$ and keeping $angstep = 0.05$ and $BWthresh=
 80$ we get the results seen in figure \ref{fig:alpha1}, \ref{fig:alpha2}
 \ref{fig:alpha3}, \ref{fig:alpha4}.These images show that $\alpha$ should not be
@@ -141,12 +206,11 @@ estiation is not all that precise.
 \begin{figure}[!ht]
 \centering
 \begin{floatrow}
-    \ffigbox[\FBwidth]{\caption{$\alpha = 95$ }\label{fig:alpha1}}{
-  \includegraphics[width=0.5\textwidth]{fig8.png}}
-  
-  \ffigbox[\FBwidth]{$\alpha = 100 $}
+  \ffigbox[\FBwidth]{\caption{$\alpha = 95$ }\label{fig:alpha1}}{
+  \includegraphics[width=0.7\textwidth]{fig8.jpg}}
+  \ffigbox[\FBwidth]{\caption{$\alpha = 100 $}
   \label{fig:alpha2}}{
-  \includegraphics[width=0.5\textwidth]{fig9.png}}
+  \includegraphics[width=0.7\textwidth]{fig9.jpg}}
 \end{floatrow}
 \end{figure}
 
@@ -154,14 +218,42 @@ estiation is not all that precise.
 \centering
 \begin{floatrow}
     \ffigbox[\FBwidth]{\caption{$\alpha =130 $ }\label{fig:alpha3}}{
-  \includegraphics[width=0.5\textwidth]{fig11.png}}
+  \includegraphics[width=0.7\textwidth]{fig11.jpg}}
   
-  \ffigbox[\FBwidth]{$\alpha = 150 $}
+  \ffigbox[\FBwidth]{\caption{$\alpha = 150 $}
   \label{fig:alpha4}}{
-  \includegraphics[width=0.5\textwidth]{fig12.png}}
+  \includegraphics[width=0.7\textwidth]{fig12.jpg}}
 \end{floatrow}
 \end{figure}
 
+\FloatBarrier
 
+
+\subsection{Calculating the error}
+So now we know that the optimal value for $angstep = 0.05$, for $\alpha = 130$
+and for $BWthresh$ it does not matter in the tested threshold. This can be used for calculating the
+error using function \texttt{compute\_uncertainty}. The final result of this
+can be seen in figure \ref{fig:error} in case of the optimal parameters
+and in figure \ref{fig:error2} in case of less than optimal parameters.
+We are not sure why the camera position creates such large errors in case of
+figure \ref{fig:error2}. It does not have to do with camera
+calibration,
+because it never happens in case of good parameter choices. It probably is
+a byproduct of using wrong 
+
+the case with ...
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+    \ffigbox[\FBwidth]{\caption{$The image showing the distance error in case of
+    $\alpha = 130$, $angstep = 0.05$ and $BWthresh = 90$ }\label{fig:error}}{
+  \includegraphics[width=0.7\textwidth]{error_image.png}}
+  
+  \ffigbox[\FBwidth]{\caption{The image showing the distance error in case
+      of$\alpha = 90$, $angstep = 1$ and $BWthresh = 90$ }
+  \label{fig:error2}}{
+  \includegraphics[width=0.7\textwidth]{error_image2.jpg}}
+\end{floatrow}
+\end{figure}
 
 \end{document}

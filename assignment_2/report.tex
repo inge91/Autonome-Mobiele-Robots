@@ -17,21 +17,20 @@ Making a range finder using an omni-directional camera }
 \begin{document}
 \maketitle
 
-This assignment is about making a range finder using an omni-directional
-camera on a lego robot. 
-Because most of the code was already given in the assignment, this report
+This assignment was about making a range finder using an omni-directional
+camera on a Lego robot. 
+Because most of the code was already given in the assignment, the report
 mostly consists of experimenting with values for different variables to
 create the best possible mapping of the camera visualisation and the real world.
-In the end the error will be visualised using the best possible calibration
-settings and variable values found.
+In the end a map of the environment will be shown using the parameters that were
+found to be optimal.
 
 \section{The steps towards simulating a range finder}
 
 The first step towards creating the final map is calibrating the camera. For
-this purpose thei script \texttt{calibrate\_camera\_offline.m} was modified to
+this purpose the script \texttt{calibrate\_camera\_offline.m} was modified to
 work with a single picture taken from the omnidirectional camera, as shown in
-figure \ref{fig:snapshot}
-
+figure \ref{fig:snapshot}.
 
 \begin{figure}[!ht]
 \centering
@@ -40,13 +39,13 @@ figure \ref{fig:snapshot}
   \caption{A snapshot from the omnidirectional camera}
 \end{figure}
 
-calibration values were set: $Rmin = 77$ , $Rmax = 160$, $Centre\_x = 325.2203$ and
+Calibration values were set: $Rmin = 77$ , $Rmax = 160$, $Centre\_x = 325.2203$ and
 $Centre\_y =  225.0$
 
-This created the spaces as can be seen in figure \ref{fig:circles}, where the space spanned between the
-outer pink circle to
-the inner pink circle is the used data in the rest of the report. Figure
-\ref{fig:straight} shows this part of the images straightened out.
+This created the areas seen in figure \ref{fig:circles}, where the area between the
+outer pink circle and
+the inner pink circle is considered `useful information'. Figure
+\ref{fig:straight} shows the same image, except unwrapped from the center.
 
 \begin{figure}[!ht]
 \centering
@@ -58,7 +57,6 @@ the inner pink circle is the used data in the rest of the report. Figure
   \includegraphics[width=0.5\textwidth]{map_images/straightened_image.jpg}}
 \end{floatrow}
 \end{figure}
-
 
 To extract the walls from the original image, it needs to be unwarped and all
 data that does not fall between the two pink lines in \ref{fig:circles} needs to
@@ -79,22 +77,21 @@ can be seen in figure \ref{fig:angstep0.05} and \ref{fig:angstep5}.
 \end{floatrow}
 \end{figure}
 
-At first one would say a lower angle would be more precise in the funal mapping, 
-but the problem with a lower angle is the great amount of detail that will be
-kept in the image and thus a
-great amount of noise that comes with it. A too high angular step, however,
-could make the distance estimation less accurate.
-$Angstep$ is thus one of the parameters with
-wich will be experimentated to find the approximate best one.
+At first glance one might say a lower angle (thus, higher resolution) would lead
+to more precision, but the problem with a higher resolution is the great amount of
+detail that will be kept in the image and thus a great amount of noise that
+comes with it. A too low resolution, however, could make the distance
+estimation less accurate. $Angstep$ is thus one of the parameters with
+wich will be experimented with to find a suitable value.
 
-Whatever the chosen angstep is, there still needs to be some more noise
+Whatever the chosen $angstep$ is, there still needs to be some more noise
 reduction to accentuate the position of the wall pieces. A simple black and
 white threshold is used for this. A more difficult choice is however at what
 value to set the threshold, something that can not be determined from a single
 image, but we still try to approximate it that way. In figure \ref{fig:thresh100} and
-\ref{fig:thresh75} two different tresholds can be seen. Note that the white
-values  of the pixels have not been normalised.
-thresholded.
+\ref{fig:thresh75} two different tresholds can be seen. Note that the range of
+of the input grayscale image is not normalised between 0 and 1, but instead 0
+and 255, leading to the threshold values of 100 and 75.
 
 \begin{figure}[!ht]
 \centering
@@ -109,16 +106,15 @@ thresholded.
 \end{floatrow}
 \end{figure}
 
-With this constructed image the following step is to iterate through all the
-white pixels from the left side.  Now using
-the height of the robot(around 0.33 meters) and a certain $\alpha$ the distance towards these
-black points can be calculated.
-Different values for $\alpha$ were experimented with. In case of the robot in
-Zurich, $\alpha$ was given the value of 95 pixels, so we experiment around these
-values as well.
+The following step is to iterate through each horizontal line to scan for
+transition from white to black. Using the height of the camera (around 0.33
+meters) and a certain $\alpha$ the distance towards these transitions can be
+calculated.  Different values for $\alpha$ were experimented with. In case of
+the robot in Zurich, $\alpha$ was given the value of 95 pixels, so we experiment
+around these values as well.
 
 \subsection{Varying parameter values}
-The data set with all experimentations of angstep, the black and white
+The data set with all tested values of angstep, the black and white
 threshold and  $\alpha$ was created by running \texttt{create\_dataset.m} and can be run with
 or without calibration. The following different combination of values were
 used:\\
@@ -133,11 +129,10 @@ used:\\
 
 When using $BWthresh = 75 $ and $\alpha = 130$ and varying $angstep$, we get
 figure \ref{fig:angstep1}, \ref{fig:angstep2}, \ref{fig:angstep3},
-\ref{fig:angstep4}. Although first concerns were given for taking a too high
-resolution, from this data we can see clearly that taking the smallest
-angular step tested does not create too much noise for the purpose of line
-detection. In case of the $angstep = 0.05$, we can identify 5 clear outliers and
-in the case of $angstep =2$ only 3 less than this. It seems there doesn't have to
+\ref{fig:angstep4}. Although we expected a high resolution to add noise,
+in this particular testing setup it's not problem.
+In case of the $angstep = 0.05$, we can identify 5 clear outliers and
+in the case of $angstep =2$ only 3 less than this. It seems there might not have to
 be a big trade-off between resolution and accuracy.
 \begin{figure}[!ht]
 \centering

@@ -1,0 +1,43 @@
+function dist = CalibrateScans()
+clc;
+N = 722;
+
+alpha = 107;%         Radial distortion coefficient
+height = 0.1261;%     camera height in meters
+
+BWthreshold = 180; %   Threshold for segment the image into Black & white colors
+angstep = 360/N;%         Angular step of the beam in degrees
+axislimit = 0.8;%     Axis limit
+
+global vid
+global center Rmax Rmin
+
+while true 
+    snapshot = getsnapshot(vid);%       Acquire image
+
+    snapshot = imflipud( snapshot );%   Flip the image Up-Down
+
+    [undistortedimg, theta] = imunwrap( snapshot , center, angstep, Rmax, Rmin);% Transform omnidirectional image into a rectangular image
+
+    BWimg = img2bw( undistortedimg , BWthreshold ); % Binarize rectangular image into Blak&White
+
+    rho = getpixeldistance( BWimg , Rmin );%     Get radial distance (this distance is still affected by radial distortion)
+
+    figure(1); imagesc(snapshot); hold on; drawlaserbeam( center, theta, rho ); %pause;
+
+    dist = undistort_dist_points( theta , rho , alpha , height );
+    XY = zeros(722,2);
+    [XY(:,1), XY(:,2)] = pol2cart(theta, dist);
+    figure(2); plot(XY(:,1), XY(:,2), '.-');
+    [NLines, r, line_alpha, segend, seglen] = recsplit(XY);
+    figure(3), clf, axis([-0.5 0.5 -0.5 0.5]), grid on; hold on;
+    color = 0;
+    for i=1:NLines
+        if color == 0, c = 'r'; elseif color == 1, c = 'b'; else c = 'g'; end
+        line([segend(i,1) segend(i,3)], [segend(i,2) segend(i,4)], ...
+            'color', c, 'linewidth', 3);
+        color = mod(color+1, 3);
+    end
+  
+
+end

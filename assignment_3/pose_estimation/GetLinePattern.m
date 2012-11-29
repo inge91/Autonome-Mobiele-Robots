@@ -4,6 +4,8 @@ NumStrings = 0;
 PatStrings = {};
 PlaceID = [];
 
+global vid
+
 training = input('Is it labeled or unlabeled data [l/u]:', 's');
 
 while true
@@ -15,6 +17,8 @@ while true
   if training == 'l'
     PlaceID(NumStrings)= input('Which place [1/2/3] : ');
   end;
+
+  vid = input('What is the path of the image?\n> ');
   
   % Get a new scan
   XY = GetNextScan;

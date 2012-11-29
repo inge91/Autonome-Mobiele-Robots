@@ -28,7 +28,7 @@ global vid
 global center Rmax Rmin
 
 %start(vid);
-snapshot = getsnapshot(vid);%       Acquire image
+snapshot = imread(vid);%       Acquire image
 
 snapshot = imflipud( snapshot );%   Flip the image Up-Down
 

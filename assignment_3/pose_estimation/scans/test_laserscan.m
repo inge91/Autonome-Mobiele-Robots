@@ -23,7 +23,7 @@ alpha = 112;%         Radial distortion coefficient
 height = 0.17;%       camera height in meters
 BWthreshold = 180;%   Threshold for segment the image into Black & white colors
 angstep = 1;%         Angular step of the beam in degrees
-axislimit = 0.8;%     Axis limit
+axislimit = 1.5;%     Axis limit
 
 % -------------------------------------------------------------------------
 % MAIN

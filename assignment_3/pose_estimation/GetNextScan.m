@@ -9,7 +9,7 @@ function  XY = GetNextScan
   %  InitCamera;
 
   % Get the laser points in polar coordinate.
-  scans = GetLaserScans(NSCANPOINTS);
+  scans = create_dataset(NSCANPOINTS);
 
   % Convert points to cartesian coordinate
   XY = zeros(NSCANPOINTS,2);

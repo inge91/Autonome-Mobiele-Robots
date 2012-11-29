@@ -4,8 +4,8 @@ if response == 1
    calibrate_camera_offline
 end
 count = 1;
-angsteps = [0.05, 0.5, 1, 1.5, 2, 5, 10];
-%angsteps = 0.05;
+%angsteps = [0.05, 0.5, 1, 1.5, 2, 5, 10];
+angsteps = 0.5;
 for i = 1:length(angsteps)
     % angstep should be experimented with
     [undistortedimg, theta] = imunwrap(snapshot, center, angsteps(i) ,Rmax, Rmin);
@@ -16,8 +16,8 @@ for i = 1:length(angsteps)
     %colormap(gray)
 
     
-    BWthresholds = [75, 80, 85, 90, 95 100];
-    %BWthresholds = 75;
+    %BWthresholds = [75, 80, 85, 90, 95 100];
+    BWthresholds = 80;
     for j = 1:length(BWthresholds)
         % Set black and white threshold
         BWimg = img2bw(undistortedimg, BWthresholds(j));
@@ -32,8 +32,8 @@ for i = 1:length(angsteps)
     %hold off;
 
         
-        alphas =[80, 95, 100, 120, 130, 150];
-        %alphas = 80;
+        %alphas =[80, 95, 100, 120, 130, 150];
+        alphas = 130;
         for k = 1:length(alphas)
             height = 0.33;
             dist = undistort_dist_points(theta, rho, alphas(k), height);

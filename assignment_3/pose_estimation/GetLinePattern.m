@@ -25,15 +25,17 @@ while true
   XY = XY';
   
   % Plot raw scan
-  figure(1), clf, axis([-0.5 0.5 -0.5 0.5]), grid on; hold on;
+  figure(1), clf, axis([-1.5 1.5 -1.5 1.5]), grid on; hold on;
   plot(XY(1,:), XY(2,:), 'r.');
 
   % Extract line segments
   [NLines, r, alpha, segend, seglen] = recsplit(XY);
+  segend
+  seglen
   disp(sprintf('Number of extracted lines: %d\n', NLines));
 
   % Plot extracted segments
-  figure(2), clf, axis([-0.5 0.5 -0.5 0.5]), grid on; hold on;
+  figure(2), clf, axis([-1.5 1.5 -1.5 1.5]), grid on; hold on;
   color = 0;
   for i=1:NLines
     if color == 0, c = 'r'; elseif color == 1, c = 'b'; else c = 'g'; end

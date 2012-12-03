@@ -4,11 +4,13 @@ function  S = ComputePatStringBlobs(cl_angles,cl_type)
 
 configfile_lines;  
 histo = 2 * ones(1, 360/SEGRES);
+histo
 h_len = length(histo);
 NBlobs = length(cl_angles);
 
 % convert angles in degree
 deg_angles = rad2deg(cl_angles);
+NBlobs
 
 for i=1:NBlobs,
 
@@ -19,8 +21,9 @@ for i=1:NBlobs,
 %     deg_angles(i)
     idx = fix(deg_angles(i)/SEGRES);
 
-    %     histo(idx + 1) = 3;	           % if you just want to represent color blobs
-    histo(idx + 1) = 2 + cl_type(i) ;   % if you want to represent each color separately
+    histo(idx + 1) = 3;	           % if you just want to represent color blobs
+    %histo(idx + 1) = 2 + cl_type(i) ;   % if you want to represent each color separately
+    histo
 end
 
 % figure(55)

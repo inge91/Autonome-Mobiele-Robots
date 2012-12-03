@@ -13,8 +13,12 @@ while true
 	NumStrings = NumStrings + 1;
 	PlaceNum = input('Which place [1/2/3] : ');
 
-	img = getsnapshot(vid);
+    img = input('What is the path of the image?\n> ');
+      
+    img = imread(img);
+	%img = getsnapshot(vid);
  	figure(12), clf; imshow(img);
+    pause;
 
 	%% img center [row, col]
 	img_center = center';

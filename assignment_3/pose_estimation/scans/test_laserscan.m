@@ -19,7 +19,7 @@ start(vid)
 %                     Rmax was already loaded when calling "calibrate_camera.m"
 % Rmin = 77;%         Min detectable distance in pixels in VGA image
 %                     Rmin was already loaded when calling "calibrate_camera.m"
-alpha = 112;%         Radial distortion coefficient
+alpha = 132;%         Radial distortion coefficient
 height = 0.17;%       camera height in meters
 BWthreshold = 180;%   Threshold for segment the image into Black & white colors
 angstep = 1;%         Angular step of the beam in degrees

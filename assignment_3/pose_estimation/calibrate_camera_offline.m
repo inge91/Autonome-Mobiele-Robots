@@ -1,6 +1,6 @@
 
 %tmpsnapshot = F_1(1).cdata;
-tmpsnapshot = imread('omni_snapshot.jpg');
+tmpsnapshot = imread('../data_set/2012-11-26-121531.jpg');
 
 % Flip the image Up-Down
 snapshot = imflipud( tmpsnapshot );

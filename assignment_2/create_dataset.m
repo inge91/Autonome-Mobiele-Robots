@@ -1,3 +1,4 @@
+function dist = create_dataset(N)
 % camera calibration should only be done once
 response = input('Do you want to calibrate the camera?[0/1]\n>');
 if response == 1
@@ -5,7 +6,9 @@ if response == 1
 end
 count = 1;
 %angsteps = [0.05, 0.5, 1, 1.5, 2, 5, 10];
-angsteps = 0.5;
+angsteps = 360/N;
+snapshot = imread('../data_set/2012-11-26-121531.jpg');
+
 for i = 1:length(angsteps)
     % angstep should be experimented with
     [undistortedimg, theta] = imunwrap(snapshot, center, angsteps(i) ,Rmax, Rmin);
@@ -17,7 +20,7 @@ for i = 1:length(angsteps)
 
     
     %BWthresholds = [75, 80, 85, 90, 95 100];
-    BWthresholds = 80;
+    BWthresholds = 100;
     for j = 1:length(BWthresholds)
         % Set black and white threshold
         BWimg = img2bw(undistortedimg, BWthresholds(j));
@@ -25,10 +28,10 @@ for i = 1:length(angsteps)
         rho = getpixeldistance(BWimg, Rmin);
 
     %im = imread('omni_snapshot.jpg');
-    %figure;
-    %imagesc(im);
-    %hold on;
-    %drawlaserbeam(center, theta, rho);
+    figure;
+    imagesc(snapshot);
+    hold on;
+    drawlaserbeam(center, theta, rho);
     %hold off;
 
         
@@ -37,10 +40,10 @@ for i = 1:length(angsteps)
         for k = 1:length(alphas)
             height = 0.33;
             dist = undistort_dist_points(theta, rho, alphas(k), height);
-            figure;
-            axislimit = 1;
+            %figure;
+            %axislimit = 1;
             draw_undistorted_beam(dist, theta, axislimit, angsteps(i), BWthresholds(j), alphas(k), count);
-            count = count + 1
+            %count = count + 1
         end
     end
     

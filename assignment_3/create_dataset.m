@@ -19,7 +19,7 @@ for i = 1:length(angsteps)
 
     
     %BWthresholds = [75, 80, 85, 90, 95 100];
-    BWthresholds = 80;
+    BWthresholds = 100;
     for j = 1:length(BWthresholds)
         % Set black and white threshold
         BWimg = img2bw(undistortedimg, BWthresholds(j));
@@ -39,6 +39,11 @@ for i = 1:length(angsteps)
         for k = 1:length(alphas)
             height = 0.33;
             dist = undistort_dist_points(theta, rho, alphas(k), height);
+            figure;
+            axislimit = 1;
+            'draw beam'
+            draw_undistorted_beam(dist, theta, axislimit, angsteps(i), BWthresholds(j), alphas(k), count);
+            %count = count + 1
         end
     end
     

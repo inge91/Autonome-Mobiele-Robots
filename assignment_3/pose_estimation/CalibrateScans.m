@@ -11,7 +11,7 @@ height = 0.1261;%     camera height in meters
 
 BWthreshold = 180; %   Threshold for segment the image into Black & white colors
 angstep = 360/N;%         Angular step of the beam in degrees
-axislimit = 0.8;%     Axis limit
+axislimit = 5;%     Axis limit
 
 path(path, './scans/');
 configfile_blobs;

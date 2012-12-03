@@ -33,19 +33,67 @@ orientation of the robot within the room. This will create different possible
 fingerprints for both the wall based topological mapping as well as the blob
 based mapping. By rotating the sequences of these fingerprints it should be
 clear that two fingerprints are so much alike they refer to the same room, while
-reducing the noise inthe fingerprints.
+reducing the noise in the fingerprints. Figure \ref{fig:exdata} shows one of the
+images from the dataset.
 
 \begin{figure}[!ht]
 \centering
   \includegraphics[width=0.5\textwidth]{data_set/2012-11-26-121531.jpg}
-  \label{fig:snapshot}
-  \caption{A picture from the dataset} 
+  \label{fig:exdata}
+  \caption{A picture from the dataset. Represented is room 3.} 
 \end{figure}
 
 \section{Using wall extraction for topological mapping}
-In the previous assignment we succesfully found wall points which than now are
-used for finding lines.
+In the previous assignment we were able to succesfully find data points that
+represented walls of our lego construction. This same method is now used in this
+assignment (see figure \ref{fig:wallpoints}). The next step towards creating the 
+final fingerprints is to first  map these points to line segments. 
 
-\section{Using colored blobs for topological mapping}
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=0.5\textwidth]{Results/points_room3.jpg}
+  \label{fig:wallpoints}
+  \caption{A picture of all extracted wallpoints from room 3} 
+\end{figure}
+
+After these lines are found the fingerprints are automatically  fingerprints are
+automatically made by the script ..  Now the likeliness of localisation still
+has to be determined using these fingerprints. A way to do this is by...
+
+\section{Using color blobs for topological mapping}
+Colors need to be detected by determining the right threshold in HSL values for
+all four of the colors. Because all blobs are not exactly one color bus fall in
+a range of hues (due to shadow forming and light direction) all colors have a
+maximum and minimum hue that is used.  
+The original image gets thresholded on these values and
+after that the biggest blob is extracted by using the matlab function
+\texttt{bwlabel}.
+
+
+\begin{figure}[!ht]
+\centering
+\begin{floatrow}
+    \ffigbox[\FBwidth]{\caption{\texttt{imunwrap.m}Image after initial
+    thresholding}\label{fig:angstep0.05}}{
+    \includegraphics[width=0.5\textwidth]{Results/red_thresh_room3.jpg}}
+  
+  \ffigbox[\FBwidth]{\caption{\texttt{imunwrap.m} Image with final blob detected}
+  \label{fig:angstep5}}{
+  \includegraphics[width=0.5\textwidth]{Results/red_threshlabel_room3.jpg}}
+\end{floatrow}
+\end{figure}
+
+The provided script only works with two colors at one time to create the
+fingerprint, so we devide the colors used for every room. This makes the problem
+of identifying a room
+a lot more straightforward, as now one of the two colors can always be chosen
+uniquely. This is not all that unrealistic as color blobs could be the color of
+walls in the room or other keyfeatures. The script \texttt{ComputePatStringBlobs.m} gives the option to return
+the fingerprint with only a value 3 for every blob without discriminating
+between
+the colors.
+For room 3 we use colors red and yellow. For room 2 we use colors green and
+yellow and for room 1 we use colors blue and green. The set of fingerprints can
+be seen in ...
 
 \end{document}

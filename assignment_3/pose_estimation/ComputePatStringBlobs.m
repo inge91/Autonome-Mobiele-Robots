@@ -10,6 +10,7 @@ NBlobs = length(cl_angles);
 
 % convert angles in degree
 deg_angles = rad2deg(cl_angles);
+
 NBlobs
 
 for i=1:NBlobs,

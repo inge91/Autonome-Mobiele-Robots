@@ -52,6 +52,10 @@ pause
 
 %% label
 [L_a, num_a] = bwlabel(valid_a, 8);
+'color'
+imshow(L_a)
+pause
+'nocolor'
 [L_b, num_b] = bwlabel(valid_b, 8);
 % [L_a, num_a] = bwlabel(valid_a, 4);
 % [L_b, num_b] = bwlabel(valid_b, 4);
@@ -76,77 +80,76 @@ cl_center = [];
 cl_angles = [];
 cl_type = [];
 
-%% filter too small cluster
-%% channel A
-%for i = 1:num_a,
-%    idx = find(L_a == i);
-%   
-%    if ( (size( (idx),1) < min_pxarea) || (size( (idx),1) > max_pxarea) )
-%        L_a(idx) = 0;
-%    else
-%        c_col = (floor(idx / img_rows) + 1);
-%        c_row = (mod(idx, img_rows) + 1);
-%
-%        cc2 = sum(c_col) / size( (idx),1);
-%        cc1 = sum(c_row) / size( (idx),1);       
-%
-%	cstd = std(c_col);
-%	rstd = std(c_row);
-%
-%	cc = img_center(1);	
-%	rc = img_center(2);	
-%%         if( (cc1 - radius)^2 + (cc2 - radius)^2 < radius^2)
-%%             if( (cc1 - radius)^2 + (cc2 - radius)^2 > radius_inner^2)
-%%                 cl_center = [cl_center; [cc1, cc2]]
-%%             end    
-%%         end
-%	if( (cc1 - rc)^2 + (cc2 - cc)^2 < radius^2)
-%		if( (cc1 - rc)^2 + (cc2 - cc)^2 > radius_inner^2)
-%			if ( (cstd <= stdthreshold) && (rstd <= stdthreshold) )
-%				[size( (idx),1)	 cstd rstd 1]
-%				cl_center = [cl_center; [cc1, cc2]];
-%				cl_type = [cl_type ; 1];  % 1st color = green
-%			end;
-%		end
-%	end
-%    end    
-%end
+% filter too small cluster
+% channel A
+for i = 1:num_a,
+    idx = find(L_a == i);
+   
+    if ( (size( (idx),1) < min_pxarea) || (size( (idx),1) > max_pxarea) )
+        L_a(idx) = 0;
+    else
+        c_col = (floor(idx / img_rows) + 1);
+        c_row = (mod(idx, img_rows) + 1);
 
-%% channel B
-%for i = 1:num_b,
-%    idx = find(L_b == i);
-%    
-%    if ( (size( (idx),1) < min_pxarea) || (size( (idx),1) > max_pxarea) )
-%        L_b(idx) = 0;
-%    else    
-%        c_col = (floor(idx / img_rows) + 1);
-%        c_row = (mod(idx, img_rows) + 1);
-%
-%	cstd = std(c_col);
-%	rstd = std(c_row);
-%	
-%        cc2 = sum(c_col) / size( (idx),1);
-%        cc1 = sum(c_row) / size( (idx),1);       
-%        
-%	cc = img_center(1);	
-%	rc = img_center(2);	
-%%         if( (cc1 - radius)^2 + (cc2 - radius)^2 < radius^2)
-%%             if( (cc1 - radius)^2 + (cc2 - radius)^2 > radius_inner^2)
-%%                 cl_center = [cl_center; [cc1, cc2]];
-%%             end    
-%%         end             
-%	if( (cc1 - rc)^2 + (cc2 - cc)^2 < radius^2)
-%		if( (cc1 - rc)^2 + (cc2 - cc)^2 > radius_inner^2)
-%			if ( (cstd <= stdthreshold) && (rstd <= stdthreshold) )
-%				[ size( (idx),1) cstd rstd 2 ]
-%				cl_center = [cl_center; [cc1, cc2]];
-%				cl_type = [cl_type ; 2];  % 2nd color = blue
-%			end;
-%		end
-%	end
-%    end
-%end
+        cc2 = sum(c_col) / size( (idx),1);
+        cc1 = sum(c_row) / size( (idx),1);       
 
+	cstd = std(c_col);
+	rstd = std(c_row);
+
+	cc = img_center(1);	
+	rc = img_center(2);	
+%         if( (cc1 - radius)^2 + (cc2 - radius)^2 < radius^2)
+%             if( (cc1 - radius)^2 + (cc2 - radius)^2 > radius_inner^2)
+%                 cl_center = [cl_center; [cc1, cc2]]
+%             end    
+%         end
+	if( (cc1 - rc)^2 + (cc2 - cc)^2 < radius^2)
+		if( (cc1 - rc)^2 + (cc2 - cc)^2 > radius_inner^2)
+			if ( (cstd <= stdthreshold) && (rstd <= stdthreshold) )
+				[size( (idx),1)	 cstd rstd 1]
+				cl_center = [cl_center; [cc1, cc2]];
+				cl_type = [cl_type ; 1];  % 1st color = green
+			end;
+		end
+	end
+    end    
+end
+
+% channel B
+for i = 1:num_b,
+    idx = find(L_b == i);
+    
+    if ( (size( (idx),1) < min_pxarea) || (size( (idx),1) > max_pxarea) )
+        L_b(idx) = 0;
+    else    
+        c_col = (floor(idx / img_rows) + 1);
+        c_row = (mod(idx, img_rows) + 1);
+
+	cstd = std(c_col);
+	rstd = std(c_row);
+	
+        cc2 = sum(c_col) / size( (idx),1);
+        cc1 = sum(c_row) / size( (idx),1);       
+        
+	cc = img_center(1);	
+	rc = img_center(2);	
+%         if( (cc1 - radius)^2 + (cc2 - radius)^2 < radius^2)
+%             if( (cc1 - radius)^2 + (cc2 - radius)^2 > radius_inner^2)
+%                 cl_center = [cl_center; [cc1, cc2]];
+%             end    
+%         end             
+	if( (cc1 - rc)^2 + (cc2 - cc)^2 < radius^2)
+		if( (cc1 - rc)^2 + (cc2 - cc)^2 > radius_inner^2)
+			if ( (cstd <= stdthreshold) && (rstd <= stdthreshold) )
+				[ size( (idx),1) cstd rstd 2 ]
+				cl_center = [cl_center; [cc1, cc2]];
+				cl_type = [cl_type ; 2];  % 2nd color = blue
+			end;
+		end
+	end
+    end
+end
 
 %%
 % ***** DEBUG **********8
@@ -175,3 +178,7 @@ if(isempty(cl_center) ~= 1)
     end
 
 end
+cl_center 
+cl_angles
+cl_type 
+

@@ -25,8 +25,8 @@ color_s = zeros(2,2);
 % color_s(1,:) = [118 125] / 255; % green
 
 % The colors used for filtering
-color_s(1,:) = [337 355] / 360; % red
-color_s(2,:) = [38 49] / 360;  % yellow
+color_s(1,:) = [325 355] / 360; % red
+color_s(2,:) = [32 50] / 360;  % yellow
 
 
 %% def values for saturation and luminance

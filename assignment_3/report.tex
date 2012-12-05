@@ -96,4 +96,62 @@ For room 3 we use colors red and yellow. For room 2 we use colors green and
 yellow and for room 1 we use colors blue and green. The set of fingerprints can
 be seen in ...
 
+
+\section{Comparing fingerprints using Levenshtein distance}
+Now that ways have been determined to establish the fingerprints, these
+fingerprints now need to be compared some way or the other. Because these
+fingerprints are nothing more than a row of characters that determine if
+given some radius step there is a, the Levenshtein distance can be used for
+this. The Levenshtein distance is a way to measure the \texttt{distance}
+between two sequences by determining how many deletions, replacements and
+insertions have to be made to end up with two the same sequences. In our use of
+the fingerprints only the replacement operation will be important as we use one
+and the same \texttt{angstep} for every fingerprint extraction.
+
+If we want to measure the difference between two fingerprints we first need to
+rotate both strings so that we know for sure the orientation of the robot plays
+no part in the final distance calculation (for example if we want to compare a
+fingerprint of room 1 with another for room 1, it may not look the same in case
+the robot looks the other direction and thus the sequence is the same but each
+element is at another place). The way we chose to neglect this rotiation is by
+putting the first element of one of the fingerprints after the last one until we
+end up with this character at the beginning again, at every step calculating how
+big the Levenshtein difference is. When it is at a minimum we know that we have
+compensated for the rotiation of the robot.
+
+In \texttt{find\_distance.m} the strings are rotated and returned the absolute minimal
+Levenshtein distance (using the code provided in \texttt{LevenshteinDistance.m}) that could be found.
+
+Now that the fingerprints have been made rotation invariant, we need to make a
+dataset for each room with same orientations, which can be done while running
+\texttt{GetLinePattern.m} and \texttt{GetBlobPattern.m} respectively. These
+files create a \texttt{.mat} file with encoded fingerprints.
+
+
+
+\section{Experiments}
+First experiments that were undetaken were with the extracted fingerprints using
+the color blobs. The final fingerprint 
+
+
+\section{Results}
+
+\section{Limitations of the fingerprint approach}
+Although using these fingerprints make localisation possible in theory there are
+still some limitations towards using this as a robust localisation technique. We
+were able to make the fingerprints rotiation invariant, but when a different
+resolution of fingerprints is used between retrieving wall or blob information
+the Levenshtein distance metric will no longer be usable. Arguably, choosing the
+resolution of a fingerprint is something that sould be done only once, making
+this not much of a real world issue.
+
+Another limitation that should be mentioned is that this method is not all that
+location invariant. In our case the walls of the three rooms were so close
+together that only a single positioning of the robot within the room was
+possible for the robot to detect all 4 walls (and even that did not work all
+that succesfull), but in case the robot would be closer to one of the walls the
+final finger print would be way off. Having a bigger dataset could possible
+overcome this difficulty, or always making certain to position the robot  in the
+middle of a room (so with equal distance to the walls on all sides).
+
 \end{document}

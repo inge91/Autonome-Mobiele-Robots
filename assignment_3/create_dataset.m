@@ -35,9 +35,9 @@ for i = 1:length(angsteps)
 
         
         %alphas =[80, 95, 100, 120, 130, 150];
-        alphas = 130;
+        alphas = 107;
         for k = 1:length(alphas)
-            height = 0.33;
+            height = 0.07;
             dist = undistort_dist_points(theta, rho, alphas(k), height);
             figure;
             axislimit = 1;

@@ -149,22 +149,5 @@ performs significantly better than random guessing would.
 
 \section{Results}
 
-\section{Limitations of the fingerprint approach}
-Although using these fingerprints make localisation possible in theory there are
-still some limitations towards using this as a robust localisation technique. We
-were able to make the fingerprints rotiation invariant, but when a different
-resolution of fingerprints is used between retrieving wall or blob information
-the Levenshtein distance metric will no longer be usable. Arguably, choosing the
-resolution of a fingerprint is something that sould be done only once, making
-this not much of a real world issue.
-
-Another limitation that should be mentioned is that this method is not all that
-location invariant. In our case the walls of the three rooms were so close
-together that only a single positioning of the robot within the room was
-possible for the robot to detect all 4 walls (and even that did not work all
-that succesfull), but in case the robot would be closer to one of the walls the
-final finger print would be way off. Having a bigger dataset could possible
-overcome this difficulty, or always making certain to position the robot  in the
-middle of a room (so with equal distance to the walls on all sides).
 
 \end{document}

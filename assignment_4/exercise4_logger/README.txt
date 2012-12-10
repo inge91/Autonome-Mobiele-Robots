@@ -1,0 +1,12 @@
+- plug the camera to an USB port
+- plug the robot to an USB port
+- start the robot
+- start MATLAB
+- go into you logger directory
+- start the robot GUI by entering RobotGUI into the command window
+- click Run in the RobotGUI
+- calibrate the camera by clicking on the center of the lens and on its outer border, accept by entering y in the command window
+- use both handles to move the robot around
+- click stop when you are finished
+- wait until matlab completes
+- the data is stored in a file 'log.txt' within the logger directory

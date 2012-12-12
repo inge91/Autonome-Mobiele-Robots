@@ -23,7 +23,16 @@ NEFFECTIVE = 0.75*PARAMS.NPARTICLES; % minimum number of effective particles bef
 h= setup_animations();
 
 % initialisations
-particles= initialise_particles(PARAMS.NPARTICLES);
+particles = initialise_particles(PARAMS.NPARTICLES);
+particles(1).xv
+particles(2).xv
+particles(3).xv
+particles(4).xv
+particles(5).xv
+particles(6).xv
+particles(7).xv
+particles(8).xv
+particles(9).xv
 odometry = initialise_particles(1);
 
 % covar. matrices for odo and range sensor
@@ -51,10 +60,12 @@ for logrow=1:m_size,
  
         % Coarse filter wheel encoder values 
         if(filter_odometry(logmatrix(logrow,3) , logmatrix(logrow,4), PARAMS.TOL_JMP))
+            logmatrix(logrow,4)
  
             % Odometry predict step for each particle
             for i=1:PARAMS.NPARTICLES
-                particles(i) = predict_odo (particles(i), logmatrix(logrow,3), logmatrix(logrow,4), Qe);
+                
+                particles(i) = predict_odo(particles(i), logmatrix(logrow,3), logmatrix(logrow,4), Qe);
             end
             
         end

@@ -32,53 +32,24 @@ T_b_S = 0.5;  %[s]
 F_O_U = 5;  %[Hz]
 
 % NAME OF THE LOG FILE:
-Log_name = 'log.txt';
+Log_name = 'log2.txt';
 
 %===================================%
 
-global PhiPrime Stop_Robot;
-global hSerial;
 
 
 % INITIALIZE VARIABLES.
-InitVariables;
-InitCamera;
 
-robotData= GetRobotData(); % reads sensors and encoders
-encoder = robotData; % extracts encoder values
 
 % Open the log file for writing the data
 FILE = fopen(Log_name, 'w')
-
-tic;
-figure(2)
-while (~Stop_Robot)
-    rem_time = T_b_S;
-    
-    %% DURING X SECONDS, THE ROBOT EVOLVES AND SAVE THE ODOMETRY MEASURES
-    while(rem_time>0 & ~Stop_Robot)
-        t_time = toc;
-        robotData = GetRobotData(); % retrieve data packet from NXT
-        [dEncoder, encoder] = GetEncoder(robotData, encoder); % get wheel encoder values
-        dS = dEncoder * robotConst(1); % calculate change in displacement from previous time step
-        [dx, dtheta]=Odometry(dS, robotConst(2)); % gets the odometry in the robot-centered reference system
-        SaveEncoderData(FILE, toc, dx, dtheta, N);
-
-        SetSpeed(PhiPrime); % set the speeds of the motors
-        pause(1/F_O_U);
-        rem_time = rem_time - (toc - t_time);
-    end
-
-    disp('Taking laser data');
-    laser_scans = GetLaserScans(N);
-    SaveLaserData(FILE, toc, laser_scans); 
-    
-end
+tic
+disp('Taking laser data');
+laser_scans = GetLaserScans(1);
+SaveLaserData(FILE, toc, laser_scans); 
+        
 
 fclose(FILE);
 
-SetSpeed([0 0]);
-pause(0.5);
-StopRobotCommunication();
 
 display('Execution Complete!');

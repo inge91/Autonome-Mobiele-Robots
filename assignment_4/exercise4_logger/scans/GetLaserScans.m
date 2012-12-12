@@ -11,8 +11,8 @@ function dist = GetLaserScans(N)
 % MOST IMPORTANT PARAMETERS
 % -------------------------------------------------------------------------
 
-alpha = 107;%         Radial distortion coefficient
-height = 0.1261;%     camera height in meters 
+alpha = 130;%         Radial distortion coefficient
+height = 0.33;%     camera height in meters 
 
 %% ------Old values ------
 %alpha = 112;%         Radial distortion coefficient:  Robot ASL2: 112, other: 107
@@ -27,24 +27,27 @@ axislimit = 0.8;%     Axis limit
 global vid
 global center Rmax Rmin
 
+calibrate_camera;
 %start(vid); 
-    snapshot = getsnapshot(vid);%       Acquire image
-    
-    snapshot = imflipud( snapshot );%   Flip the image Up-Down
-         
-    [undistortedimg, theta] = imunwrap( snapshot , center, angstep, Rmax, Rmin);% Transform omnidirectional image into a rectangular image
+    %snapshot = getsnapshot(vid);%       Acquire image
+vid = input('What is the path of the image?\n> ');
+snapshot = imread(vid);
 
-    BWimg = img2bw( undistortedimg , BWthreshold );% Binarize rectangular image into Blak&White
+snapshot = imflipud( snapshot );%   Flip the image Up-Down
+     
+[undistortedimg, theta] = imunwrap( snapshot , center, angstep, Rmax, Rmin);% Transform omnidirectional image into a rectangular image
 
-    rho = getpixeldistance( BWimg , Rmin );%     Get radial distance (this distance is still affected by radial distortion)
-    
-   % figure(1); imagesc(snapshot); hold on; drawlaserbeam( center, theta, rho );        
-    
-    dist = undistort_dist_points( theta , rho , alpha , height );
-    dist = [dist((N/2+1):end) dist(1:(N/2))];
-    figure(2); draw_undisdtorted_beam( dist , theta , axislimit ); drawnow;
+BWimg = img2bw( undistortedimg , BWthreshold );% Binarize rectangular image into Blak&White
 
-  %  c = img2bw( grayimg , BWthreshold ); figure(3); imagesc(c); colormap(gray); drawnow;
-    
-   % stop(vid);
+rho = getpixeldistance( BWimg , Rmin );%     Get radial distance (this distance is still affected by radial distortion)
+
+% figure(1); imagesc(snapshot); hold on; drawlaserbeam( center, theta, rho );        
+
+dist = undistort_dist_points( theta , rho , alpha , height );
+dist = [dist((N/2+1):end) dist(1:(N/2))];
+figure(2); draw_undisdtorted_beam( dist , theta , axislimit ); drawnow;
+
+%  c = img2bw( grayimg , BWthreshold ); figure(3); imagesc(c); colormap(gray); drawnow;
+
+% stop(vid);
 

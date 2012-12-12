@@ -13,6 +13,7 @@
 
 function [Iunwraped, theta] = imunwrap(I, center, theta_step, Rmax, Rmin)
 
+center
 I = img2gray( I );
 
 Rmax = round( Rmax );

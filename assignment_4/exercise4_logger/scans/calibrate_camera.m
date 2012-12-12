@@ -5,7 +5,7 @@ function [response, center, Rmax, Rmin] = calibrate_camera(vid)
 
 disp('starting acquisition. Please wait...');
 for i=1:1
-    tmpsnapshot = getsnapshot(vid);
+    tmpsnapshot = imread('../Data/1.jpg');
 end
 
 % Flip the image Up-Down
@@ -26,6 +26,7 @@ center
 draw2DCircle(center,Rmin,'m');
 draw2DCircle(center,Rmax,'m');
 
+center
 
 % This function convert the omnidirectional picture into a rectangular
 % image. Use this tool to see if the calibration was accurately done (for
@@ -45,4 +46,3 @@ hold off;
 response = input('Are you satisfied with the calibration? (y/n)', 's');
 
 close(1)
-close(2)

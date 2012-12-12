@@ -101,8 +101,7 @@ the fingerprint with only a value 3 for every blob without discriminating
 between
 the colors.
 For room 3 we use colors red and yellow. For room 2 we use colors green and
-yellow and for room 1 we use colors blue and green. The set of fingerprints can
-be seen in ...
+yellow and for room 1 we use colors blue and green. 
 
 
 \section{Comparing fingerprints using Levenshtein distance}
@@ -137,17 +136,15 @@ files create a \texttt{.mat} file with encoded fingerprints.
 
 
 
-\section{Experiments}
+\section{Experiments and Results}
 A script was written to match a fingerprint against each fingerprint in the
-labeled set of data and measure the performance of the prediction. With 3
-different locations and 11 different tested fingerprints, there is a
+labeled set of data to find the most likely location belonging to that
+fingerprint.
+
+With 3 different locations and 11 different tested fingerprints, there is a
 success-rate of 63\%, which is okay. The set of fingerprints used for testing
 are the same as used for the labeled data, so it isn't the most scientifically
-valid test ever. It does however demonstrate that the algorithm used works, and
+valid test. It does however demonstrate that the algorithm works, and
 performs significantly better than random guessing would.
-
-
-\section{Results}
-
 
 \end{document}

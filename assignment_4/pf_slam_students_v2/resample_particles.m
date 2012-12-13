@@ -12,7 +12,7 @@ ws= sum(w); w= w/ws;
 for i=1:N, particles(i).w= particles(i).w / ws; end
 
 [keep, Neff] = stratified_resample(w);
-if Neff < Nmin & doresample==1
+if Neff < Nmin && doresample==1
     particles= particles(keep);
     for i=1:N, particles(i).w= 1/N; end
     disp 'Particles resample...'

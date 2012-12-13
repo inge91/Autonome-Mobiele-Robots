@@ -16,7 +16,7 @@ sigmaB= deg2rad(0.01); % rad
 PARAMS.R= [sigmaR^2 0; 0 sigmaB^2];
 
 % NUM PARTICLES
-PARAMS.NPARTICLES= 200; 
+PARAMS.NPARTICLES= 9; 
 
 % laser filtering
 PARAMS.FEAT_MIN_RANGE = 0.05;

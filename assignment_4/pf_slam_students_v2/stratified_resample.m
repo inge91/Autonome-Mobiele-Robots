@@ -21,7 +21,7 @@ w= cumsum(w);
 
 ctr=1; 
 for i=1:len
-   while ctr<=len & select(ctr)<w(i)
+   while ctr<=len && select(ctr)<w(i)
        keep(ctr)= i;
        ctr=ctr+1; 
    end

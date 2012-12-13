@@ -24,6 +24,7 @@ xv= particle.xv;
 % Hint:
 % x_new = x_old + dn_rn*cos(dth_rn + theta_old)
 
+
 x_new = particle.xv(1) + dr_n * cos(dth_n + xv(3));
 y_new = particle.xv(2) + dr_n * sin(dth_n + xv(3));
 th_new = particle.xv(3) + dth;
@@ -31,10 +32,6 @@ th_new = particle.xv(3) + dth;
 particle.xv= [x_new; 
               y_new;
               pi_to_pi(th_new)];
-%particle.xv= [ write new X position of the particle in world coordinate frame ?????????????????????????? ; 
-%               write new Y position of the particle in world coordinate frame ?????????????????????????? ;
-%              pi_to_pi(pi_to_pi(?????????????) + ?????????? )];
- 
- 
+
 % pi_to_pi is a *safe* function that converts angles from [0,2*pi] into the
 % standard convention {[0,pi], (-pi, 0]}

@@ -12,7 +12,8 @@
 %   ETH Zurich - April, 25, 2007
 
 function [Iunwraped, theta] = imunwrap(I, center, theta_step, Rmax, Rmin)
-
+imshow(I);
+pause;
 I = img2gray( I );
 
 Rmax = round( Rmax );
@@ -29,6 +30,8 @@ theta = [0:rad_step:2*pi-rad_step];
 rows = length( theta );
 cols = Rmax-Rmin+1;
 Iunwraped = zeros( rows, cols );
+imshow(Iunwraped);
+pause;
 
 [RHO,THETA] = meshgrid(Rmin:Rmax, theta);
 X = RHO.*cos(THETA) + xc;

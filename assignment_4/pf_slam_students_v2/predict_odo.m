@@ -5,15 +5,16 @@ function particle = predict_odo(particle, dr, dth, Q)
 
 Dmv = multivariate_gauss([dr; dth], Q, 1);
 dr_n = Dmv(1); 
+dth_n = Dmv(2);
 
 
 % predict state
 xv= particle.xv;
 
 % xv contains the *LAST* position of the considered particle in world coordinate frame, such as:
-% xv(1) = last x
-% xv(2) = last y
-% xv(3) = last theta
+% xv(1) = last x;
+% xv(2) = last y;
+% xv(3) = last theta;
 
 % In order to obtain the prediction step for the current particle 'particle'
 % consider then the measurements of the odometry of the robot that are:
@@ -23,12 +24,13 @@ xv= particle.xv;
 % Hint:
 % x_new = x_old + dn_rn*cos(dth_rn + theta_old)
 
-x_new = particle.xv(0) + dr_n * cos(dth_n + dth) 
-y_new = particle.xv(1) + dr_n * cos(dth_n + dth) 
+x_new = particle.xv(1) + dr_n * cos(dth_n + xv(3));
+y_new = particle.xv(2) + dr_n * sin(dth_n + xv(3));
+th_new = particle.xv(3) + dth;
 
-particle.xv= [ ; 
-                ;
-              ];
+particle.xv= [x_new; 
+              y_new;
+              pi_to_pi(th_new)];
 %particle.xv= [ write new X position of the particle in world coordinate frame ?????????????????????????? ; 
 %               write new Y position of the particle in world coordinate frame ?????????????????????????? ;
 %              pi_to_pi(pi_to_pi(?????????????) + ?????????? )];

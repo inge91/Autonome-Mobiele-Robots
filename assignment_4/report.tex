@@ -17,17 +17,22 @@ Slammin' and Jammin'}
 \begin{document}
 \maketitle
 \section{Introduction}
-In this exercise the use of the SLAM algorithm is explored for the NXT
-legorobot. the maps are made using no a priori knowledge of the environment.
+In this exercise the use of the fastSLAM algorithm is explored for the NXT
+legorobot. The idea of this algorithm is that the robot makes a map using no a
+priori knowledge of the environment,
+while at the same time determining their position in the map.
+To use SLAM in general, two types of data need to be extracted.
+Firstly, the robot needs to aqcuire landmarks from the
+environment. These landsmarks in the case of this assignment are wall corners. To extract these
+corners the same algorithm is used as in previous exercises (see assignment 2,3 and 4). 
 
-To be able to use SLAM, the robot needs to aqcuire landmarks from the
-environment. These landsmarks in this case are wall corners. To extract these
-corners the same algorithm is used as in previous exercises (2,3 and 4). 
+Secondly, the robot also
+needs odometry to measure its distance to map the information found by the
+sensors correctly. This idea has been explored in a
+previous exercise as well (see assignment 1), but uses a noise distribution to
+make the next position given the previous one a certaint measure of uncertainty.
 
-To be able to map the information found by the sensors correctly, the robot also
-needs odometry to measure its distance. This idea has been explored in a
-previous exercise as well (see assignment 1), but
-
+This data is collected in log files, which are used in the 
 
 \section{Experiments}
 Unfortunately we were unable to use the dataset recorded on the Mindstorms

@@ -1,7 +1,8 @@
-\documentclass[a4paper, 20pt]{article}
+\documentclass[a4paper, 12pt]{article}
 \usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{caption}
 \usepackage{subcaption}
 \usepackage{placeins}
 \usepackage[T1]{fontenc}
@@ -84,8 +85,8 @@ same value for the returned parameter \texttt{TOL\_JUMP} with a value of 10.5
 \begin{figure}[!ht]
 \centering
   \includegraphics[width=0.5\textwidth]{Odo_test.jpg}
-  \label{fig:odo_test}
   \caption{Figure represented byt the \texttt{ODO\_TEST.m} file. } 
+  \label{fig:odo_test}
 \end{figure}
 
 
@@ -102,7 +103,14 @@ stopping. There the following parameters were available for testing:
     \item the range finder variance in angle (\texttt{sigmaB})
 \end{itemize}
 
-Table \ref{tbl:params} shows the combinations of parameters used.
+Table \ref{tbl:params} shows the combinations of parameters used. A set of
+default parameters was given and has been used as the baseline. In each trial,
+one parameter is changed in order to observe its contribution to the result.
+While the algorithm goes through the data, each particle is drawn and remains
+visible, showing the path traced by the robot. The detected features are also
+drawn relative to each particle, leading to kind of a ``wall-cloud'' showing
+where a wall might be along with the certainty.
+
 The script used for the experiments can be found in \texttt{control\_panel.m} on
 the ``experiments'' branch of the Git repository.
 
@@ -128,5 +136,115 @@ the ``experiments'' branch of the Git repository.
     trial.}
     \label{tbl:params}
 \end{table}
+
+\section{Results}
+Only using a logfile of an unknown environment makes it hard to quantify the
+output of the algorithm. The final picture output by the algorithm is taken as
+the result. The left half shows the the locations of every particle over the
+course of the algorithm in red, and the detected walls in black. The right half
+shows the sensor input in the last frame, and is irrelevant to the performance
+of the algorithm. The results are show in figures \ref{fig:results1} and
+\ref{fig:results2}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{fig/default.png}
+        \caption{the default parameters}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{{fig/sigmaX_0.05}.png}
+        \caption{\texttt{sigmaX} at 0.05}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{fig/sigmaX_1.png}
+        \caption{\texttt{sigmaX} at 1}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{{fig/sigmaTH_0.1}.png}
+        \caption{\texttt{sigmaTH} at 0.1}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+    \includegraphics[width=\textwidth]{{fig/sigmaTH_0.5}.png}
+        \caption{\texttt{sigmaTH} at 0.5}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{{fig/sigmaRs_0.1}.png}
+        \caption{\texttt{sigmaR} at 0.1}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+    \includegraphics[width=\textwidth]{{fig/sigmaRs_0.5}.png}
+        \caption{\texttt{sigmaR} at 0.5}
+    \end{subfigure}
+    \caption{SLAM results, part 1}
+    \label{fig:results1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{{fig/sigmaBs_0.1}.png}
+        \caption{\texttt{sigmaB} at 0.1}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+    \includegraphics[width=\textwidth]{{fig/sigmaBs_0.5}.png}
+        \caption{\texttt{sigmaB} at 0.5}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{{fig/particles_10}.png}
+        \caption{particles at 10}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+    \includegraphics[width=\textwidth]{{fig/particles_1000}.png}
+        \caption{particles at 1000}
+    \end{subfigure}
+
+    \caption{SLAM results, part 2}
+    \label{fig:results2}
+\end{figure}
+
+The default parameters lead to a pretty certain localisation, and not much
+uncertainty in the mapping. Raising the odometry's distance uncertainty leads
+has a dramatic effect on the end result, rendering it essentially unusable. The
+angle variance appears less dramatic, only slightly increasing the uncertainty
+of the map with no visible influence on the certainty of localisation. In
+hindsight, parameters tested might have been suboptimal. Because the distance
+variance is specified in meters and the angle variance in degrees, the chosen
+parameters are biased in favor the rotation; a 1 meter inaccuracy is far more
+dramatic than an inaccuracy of 1 degree.
+
+The distance variance in the range finger has a notable effect on the certainty
+of the robot's location; the path is clearly thicker, with more ambiguity as to
+the distance of the robot to the wall. The angle variance mainly seems to make
+the location of the walls slightly more uncertain, without much effect in
+regards to the localisation.
+
+Surprisingly, the number of particles does little except for deciding the
+thickness of the red line, which probably means the full extent of the
+uncertainty is insufficiently represented with only 10 particles, as one could
+except. In either case, the mapping and localisation are practically the same.
+Perhaps this is due to the short path travelled by the robot; the number of
+particles might have a far stronger influence on longer, non-trivial journeys.
+
 
 \end{document}

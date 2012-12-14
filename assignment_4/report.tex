@@ -93,6 +93,40 @@ same value for the returned parameter \texttt{TOL\_JUMP} with a value of 10.5
 Unfortunately we were unable to use the dataset recorded on the Mindstorms
 robot, so all experiments were done on the provided sample logfile, in which the
 robot moves forward for a bit through a hallway before turning left and
-stopping.
+stopping. There the following parameters were available for testing:
+\begin{itemize}
+    \item the number of particles
+    \item the odometry variance in distance (\texttt{sigmaX})
+    \item the odometry variance in angle (\texttt{sigmaTH})
+    \item the range finder variance in distance (\texttt{sigmaR})
+    \item the range finder variance in angle (\texttt{sigmaB})
+\end{itemize}
+
+Table \ref{tbl:params} shows the combinations of parameters used.
+The script used for the experiments can be found in \texttt{control\_panel.m} on
+the ``experiments'' branch of the Git repository.
+
+\begin{table}[htbp]
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+    sigmaX & sigmaTH & sigmaR & sigmaB & particles \\
+    \hline
+    0.003  & 0.02    & 0.01   & 0.01   & 200       \\
+    0.05   & 0.02    & 0.01   & 0.01   & 200       \\
+    0.1    & 0.02    & 0.01   & 0.01   & 200       \\
+    0.003  & 0.1     & 0.01   & 0.01   & 200       \\
+    0.003  & 0.5     & 0.01   & 0.01   & 200       \\
+    0.003  & 0.02    & 0.1    & 0.01   & 200       \\
+    0.003  & 0.02    & 0.5    & 0.01   & 200       \\
+    0.003  & 0.02    & 0.01   & 0.1    & 200       \\
+    0.003  & 0.02    & 0.01   & 0.5    & 200       \\
+    0.003  & 0.02    & 0.01   & 0.01   & 10        \\
+    0.003  & 0.02    & 0.01   & 0.01   & 1000      \\
+    \hline
+    \end{tabular}
+    \caption{The parameters used for the experiments. Each row represents one
+    trial.}
+    \label{tbl:params}
+\end{table}
 
 \end{document}
